@@ -100,7 +100,7 @@ export const Dashboard: React.FC = () => {
     if (!stats) {
         return (
             <div className="text-center py-12 flex flex-col items-center justify-center">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">{t('dashboard.welcome')}</h2>
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">{t('dashboard.welcome')}</h2>
                 <p className="text-gray-600 mb-8">{t('dashboard.getStarted')}</p>
                 <div className="space-x-4">
                     <Button onClick={() => navigate('/cards')}>{t('dashboard.addCard')}</Button>
@@ -115,8 +115,8 @@ export const Dashboard: React.FC = () => {
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
                 <div>
-                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">{t('dashboard.title')}</h1>
-                    <p className="text-gray-600">{t('dashboard.subtitle')}</p>
+                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">{t('dashboard.title')}</h1>
+                    <p className="text-gray-600 dark:text-gray-400">{t('dashboard.subtitle')}</p>
                 </div>
                 <Button onClick={() => navigate('/transactions')} className="w-full sm:w-auto">
                     <Plus className="w-4 h-4 mr-2" />
@@ -125,7 +125,7 @@ export const Dashboard: React.FC = () => {
             </div>
 
             {/* Stats Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-6" ref={statsCardsRef}>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6" ref={statsCardsRef}>
                 <Card>
                     <div className="flex items-center">
                         <div className="flex-shrink-0">
@@ -134,9 +134,9 @@ export const Dashboard: React.FC = () => {
                             </div>
                         </div>
                         <div className="ml-3 sm:ml-4 min-w-0 flex-1">
-                            <p className="text-xs sm:text-sm font-medium text-gray-500 truncate">{t('dashboard.totalBalance')}</p>
-                            <p className="text-lg sm:text-xl lg:text-2xl font-semibold text-gray-900 truncate">
-                                {stats.totalBalance.toLocaleString('fa-IR')} {t('currency.rial')}
+                            <p className="text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400 truncate">{t('dashboard.totalBalance')}</p>
+                            <p className="text-lg sm:text-xl lg:text-2xl font-semibold text-gray-900 dark:text-white truncate">
+                                <span className="persian-numbers">{stats.totalBalance.toLocaleString()}</span> {t('currency.rial')}
                             </p>
                         </div>
                     </div>
@@ -151,8 +151,8 @@ export const Dashboard: React.FC = () => {
                         </div>
                         <div className="ml-3 sm:ml-4 min-w-0 flex-1">
                             <p className="text-xs sm:text-sm font-medium text-gray-500 truncate">{t('dashboard.monthlyIncome')}</p>
-                            <p className="text-lg sm:text-xl lg:text-2xl font-semibold text-gray-900 truncate">
-                                {stats.monthlyIncome.toLocaleString('fa-IR')} {t('currency.rial')}
+                            <p className="text-lg sm:text-xl lg:text-2xl font-semibold text-gray-900 dark:text-white truncate">
+                                <span className="persian-numbers">{stats.monthlyIncome.toLocaleString()}</span> {t('currency.rial')}
                             </p>
                         </div>
                     </div>
@@ -167,8 +167,8 @@ export const Dashboard: React.FC = () => {
                         </div>
                         <div className="ml-3 sm:ml-4 min-w-0 flex-1">
                             <p className="text-xs sm:text-sm font-medium text-gray-500 truncate">{t('dashboard.monthlyExpenses')}</p>
-                            <p className="text-lg sm:text-xl lg:text-2xl font-semibold text-gray-900 truncate">
-                                {stats.monthlyExpenses.toLocaleString('fa-IR')} {t('currency.rial')}
+                            <p className="text-lg sm:text-xl lg:text-2xl font-semibold text-gray-900 dark:text-white truncate">
+                                <span className="persian-numbers">{stats.monthlyExpenses.toLocaleString()}</span> {t('currency.rial')}
                             </p>
                         </div>
                     </div>
@@ -183,7 +183,7 @@ export const Dashboard: React.FC = () => {
                         </div>
                         <div className="ml-3 sm:ml-4 min-w-0 flex-1">
                             <p className="text-xs sm:text-sm font-medium text-gray-500 truncate">{t('dashboard.budgetUtilization')}</p>
-                            <p className="text-lg sm:text-xl lg:text-2xl font-semibold text-gray-900 truncate">
+                            <p className="text-lg sm:text-xl lg:text-2xl font-semibold text-gray-900 dark:text-white truncate">
                                 {Math.round(stats.budgetUtilization)}%
                             </p>
                         </div>
@@ -199,8 +199,8 @@ export const Dashboard: React.FC = () => {
                         </div>
                         <div className="ml-3 sm:ml-4 min-w-0 flex-1">
                             <p className="text-xs sm:text-sm font-medium text-gray-500 truncate">{t('dashboard.lentToFriends')}</p>
-                            <p className="text-lg sm:text-xl lg:text-2xl font-semibold text-gray-900 truncate">
-                                {stats.totalLentToFriends.toLocaleString('fa-IR')} {t('currency.rial')}
+                            <p className="text-lg sm:text-xl lg:text-2xl font-semibold text-gray-900 dark:text-white truncate">
+                                <span className="persian-numbers">{stats.totalLentToFriends.toLocaleString()}</span> {t('currency.rial')}
                             </p>
                         </div>
                     </div>
@@ -222,7 +222,7 @@ export const Dashboard: React.FC = () => {
                                         transaction.type === 'loan_payment' ? 'bg-purple-500' : 'bg-red-500'
                                         }`} />
                                     <div className="min-w-0 flex-1">
-                                        <p className="text-sm font-medium text-gray-900 truncate">{transaction.description}</p>
+                                        <p className="text-sm font-medium text-gray-900 dark:text-white truncate">{transaction.description}</p>
                                         <p className="text-xs text-gray-500">{format(new Date(transaction.date), 'MMM dd, yyyy')}</p>
                                     </div>
                                 </div>
@@ -231,7 +231,7 @@ export const Dashboard: React.FC = () => {
                                         transaction.type === 'loan_payment' ? 'text-purple-600' : 'text-red-600'
                                         }`}>
                                         {transaction.type === 'income' || transaction.type === 'friend_loan_payback' ? '+' :
-                                            transaction.type === 'loan_payment' ? '💳' : '-'}{transaction.amount.toLocaleString('fa-IR')} {t('currency.rial')}
+                                            transaction.type === 'loan_payment' ? '💳' : '-'}<span className="persian-numbers">{transaction.amount.toLocaleString()}</span> {t('currency.rial')}
                                     </p>
                                 </div>
                             </div>
@@ -254,7 +254,7 @@ export const Dashboard: React.FC = () => {
                                 </div>
                                 <div className="text-right flex-shrink-0 ml-2">
                                     <p className="text-sm font-medium text-gray-900">
-                                        {payment.amount.toLocaleString('fa-IR')} {t('currency.rial')}
+                                        <span className="persian-numbers">{payment.amount.toLocaleString()}</span> {t('currency.rial')}
                                     </p>
                                     <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${payment.status === 'overdue'
                                         ? 'bg-red-100 text-red-800'
@@ -293,7 +293,7 @@ export const Dashboard: React.FC = () => {
                                 </div>
                                 <div className="text-right flex-shrink-0 ml-2">
                                     <p className="text-sm font-medium text-gray-900">
-                                        {payback.amount.toLocaleString('fa-IR')} {t('currency.rial')}
+                                        <span className="persian-numbers">{payback.amount.toLocaleString()}</span> {t('currency.rial')}
                                     </p>
                                     <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${payback.status === 'overdue'
                                         ? 'bg-red-100 text-red-800'

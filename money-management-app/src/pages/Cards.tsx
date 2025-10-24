@@ -147,8 +147,8 @@ export const Cards: React.FC = () => {
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
                 <div>
-                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Cards</h1>
-                    <p className="text-gray-600">Manage your cards and balances</p>
+                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Cards</h1>
+                    <p className="text-gray-600 dark:text-gray-400">Manage your cards and balances</p>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                     <Button variant="secondary" onClick={() => setShowTransferModal(true)} className="w-full sm:w-auto">
@@ -172,12 +172,12 @@ export const Cards: React.FC = () => {
                                     className="w-4 h-4 rounded-full mr-3"
                                     style={{ backgroundColor: card.color }}
                                 />
-                                <h3 className="text-lg font-semibold text-gray-900">{card.name}</h3>
+                                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{card.name}</h3>
                             </div>
                             <div className="flex space-x-2">
                                 <button
                                     onClick={() => handleEdit(card)}
-                                    className="text-gray-400 hover:text-gray-600"
+                                    className="text-gray-400 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-200"
                                 >
                                     <Edit className="w-4 h-4" />
                                 </button>
@@ -192,14 +192,14 @@ export const Cards: React.FC = () => {
 
                         <div className="space-y-2">
                             <div className="flex justify-between">
-                                <span className="text-sm text-gray-500">Balance</span>
-                                <span className="text-lg font-semibold text-gray-900">
-                                    {card.balance.toLocaleString('fa-IR')} {card.currency}
+                                <span className="text-sm text-gray-500 dark:text-gray-400">Balance</span>
+                                <span className="text-lg font-semibold text-gray-900 dark:text-white">
+                                    {card.balance.toLocaleString()} {card.currency}
                                 </span>
                             </div>
                             <div className="flex justify-between">
-                                <span className="text-sm text-gray-500">Currency</span>
-                                <span className="text-sm text-gray-700">{card.currency}</span>
+                                <span className="text-sm text-gray-500 dark:text-gray-400">Currency</span>
+                                <span className="text-sm text-gray-700 dark:text-gray-300">{card.currency}</span>
                             </div>
                         </div>
                     </Card>
@@ -208,7 +208,7 @@ export const Cards: React.FC = () => {
 
             {cards.length === 0 && (
                 <div className="text-center py-12 flex flex-col items-center justify-center">
-                    <h2 className="text-2xl font-bold text-gray-900 mb-4">No cards yet</h2>
+                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">No cards yet</h2>
                     <p className="text-gray-600 mb-8">Add your first card to get started.</p>
                     <Button onClick={() => setShowAddModal(true)}>
                         <Plus className="w-4 h-4 mr-2" />

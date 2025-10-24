@@ -1,8 +1,8 @@
 import React from 'react';
-import { Modal } from '../../../components/Modal';
-import { Button } from '../../../components/Button';
-import { Select } from '../../../components/Select';
-import { Loan, Card as CardType } from '../../../types';
+import { Modal } from './Modal';
+import { Button } from './Button';
+import { Select } from './Select';
+import { Loan, Card as CardType } from '../types';
 import { CheckCircle, AlertCircle } from 'lucide-react';
 
 interface WageFeeModalProps {

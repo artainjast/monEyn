@@ -62,7 +62,7 @@ export const Analytics: React.FC = () => {
     const getFilteredTransactions = () => {
         if (selectedCategories.length === 0) return [];
         return transactions.filter(t =>
-            !t.categoryId || selectedCategories.includes(t.categoryId)
+            !t.categoryIds || t.categoryIds.some(id => selectedCategories.includes(id))
         );
     };
 
@@ -104,7 +104,7 @@ export const Analytics: React.FC = () => {
             .filter(category => selectedCategories.includes(category.id))
             .map(category => {
                 const categoryTransactions = filteredTransactions.filter(t =>
-                    t.categoryId === category.id && t.type === 'expense'
+                    t.categoryIds?.includes(category.id) && t.type === 'expense'
                 );
                 const total = categoryTransactions.reduce((sum, t) => sum + t.amount, 0);
                 return {
@@ -130,7 +130,7 @@ export const Analytics: React.FC = () => {
         return categories
             .filter(category => selectedCategories.includes(category.id))
             .map(category => {
-                const categoryTransactions = monthTransactions.filter(t => t.categoryId === category.id);
+                const categoryTransactions = monthTransactions.filter(t => t.categoryIds?.includes(category.id));
                 const spent = categoryTransactions.reduce((sum, t) => sum + t.amount, 0);
                 const budget = category.maxBudget || 0;
                 const utilization = budget > 0 ? (spent / budget) * 100 : 0;
@@ -210,7 +210,7 @@ export const Analytics: React.FC = () => {
                 beginAtZero: true,
                 ticks: {
                     callback: function (value: any) {
-                        return value.toLocaleString('fa-IR') + ' ریال';
+                        return value.toLocaleString() + ' ریال';
                     },
                 },
             },
@@ -239,8 +239,8 @@ export const Analytics: React.FC = () => {
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
                 <div>
-                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Analytics</h1>
-                    <p className="text-gray-600">Visualize your financial data</p>
+                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Analytics</h1>
+                    <p className="text-gray-600 dark:text-gray-400">Visualize your financial data</p>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-4">
                     <Select
@@ -329,7 +329,7 @@ export const Analytics: React.FC = () => {
                                     <span className="text-gray-700">{item.name}</span>
                                 </div>
                                 <span className="font-medium text-gray-900">
-                                    {item.total.toLocaleString('fa-IR')} ریال
+                                    {item.total.toLocaleString()} ریال
                                 </span>
                             </div>
                         ))}
@@ -361,7 +361,7 @@ export const Analytics: React.FC = () => {
                                 <div className="flex items-center justify-between text-sm">
                                     <span className="text-gray-700">{item.name}</span>
                                     <span className="font-medium text-gray-900">
-                                        {item.spent.toLocaleString('fa-IR')} / {item.budget.toLocaleString('fa-IR')} ریال
+                                        {item.spent.toLocaleString()} / {item.budget.toLocaleString()} ریال
                                     </span>
                                 </div>
                                 <div className="w-full bg-gray-200 rounded-full h-2">
@@ -387,7 +387,7 @@ export const Analytics: React.FC = () => {
                     <div className="text-center">
                         <h4 className="text-sm font-medium text-gray-500 mb-2">Total Income</h4>
                         <p className="text-2xl font-bold text-green-600">
-                            {monthlyData.reduce((sum, d) => sum + d.income, 0).toLocaleString('fa-IR')} ریال
+                            {monthlyData.reduce((sum, d) => sum + d.income, 0).toLocaleString()} ریال
                         </p>
                     </div>
                 </Card>
@@ -396,7 +396,7 @@ export const Analytics: React.FC = () => {
                     <div className="text-center">
                         <h4 className="text-sm font-medium text-gray-500 mb-2">Total Expenses</h4>
                         <p className="text-2xl font-bold text-red-600">
-                            {monthlyData.reduce((sum, d) => sum + d.expenses, 0).toLocaleString('fa-IR')} ریال
+                            {monthlyData.reduce((sum, d) => sum + d.expenses, 0).toLocaleString()} ریال
                         </p>
                     </div>
                 </Card>
@@ -406,7 +406,7 @@ export const Analytics: React.FC = () => {
                         <h4 className="text-sm font-medium text-gray-500 mb-2">Net Savings</h4>
                         <p className={`text-2xl font-bold ${monthlyData.reduce((sum, d) => sum + d.net, 0) >= 0 ? 'text-green-600' : 'text-red-600'
                             }`}>
-                            {monthlyData.reduce((sum, d) => sum + d.net, 0).toLocaleString('fa-IR')} ریال
+                            {monthlyData.reduce((sum, d) => sum + d.net, 0).toLocaleString()} ریال
                         </p>
                     </div>
                 </Card>

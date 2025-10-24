@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Modal } from '../../../components/Modal';
-import { Button } from '../../../components/Button';
-import { Input } from '../../../components/Input';
-import { Select } from '../../../components/Select';
-import { DatePicker } from '../../../components/DatePicker';
-import { PaymentCalendar } from '../../../components/PaymentCalendar';
-import { Loan } from '../../../types';
-import { loanCalculator } from '../../../services';
+import { Modal } from './Modal';
+import { Button } from './Button';
+import { Input } from './Input';
+import { Select } from './Select';
+import { DatePicker } from './DatePicker';
+import { PaymentCalendar } from './PaymentCalendar';
+import { Loan } from '../types';
+import { loanCalculator } from '../services';
 import { Calendar, Trash2 } from 'lucide-react';
 import { format } from 'date-fns';
 
@@ -15,7 +15,7 @@ interface LoanFormProps {
     onClose: () => void;
     onSubmit: (loanData: any) => Promise<void>;
     editingLoan?: Loan | null;
-    onSetPaymentSchedule?: (schedule: { date: number; amount: number }[]) => void;
+    onSetPaymentSchedule?: (schedule: { date: Date; amount: number }[]) => void;
 }
 
 export const LoanForm: React.FC<LoanFormProps> = ({
@@ -30,7 +30,7 @@ export const LoanForm: React.FC<LoanFormProps> = ({
         principalAmount: '',
         totalPayback: '',
         wageFee: '',
-        startDate: Date.now(),
+        startDate: new Date(),
         interestRate: '',
         currency: 'IRR',
     });
@@ -43,8 +43,8 @@ export const LoanForm: React.FC<LoanFormProps> = ({
     });
 
     const [showPaymentScheduleModal, setShowPaymentScheduleModal] = useState(false);
-    const [paymentSchedule, setPaymentSchedule] = useState<{ date: number; amount: number }[]>([]);
-    const [selectedDate, setSelectedDate] = useState<number | null>(null);
+    const [paymentSchedule, setPaymentSchedule] = useState<{ date: Date; amount: number }[]>([]);
+    const [selectedDate, setSelectedDate] = useState<Date | null>(null);
     const [paymentAmount, setPaymentAmount] = useState('');
 
     // Initialize form data when editing
@@ -66,7 +66,7 @@ export const LoanForm: React.FC<LoanFormProps> = ({
                 principalAmount: '',
                 totalPayback: '',
                 wageFee: '',
-                startDate: Date.now(),
+                startDate: new Date(),
                 interestRate: '',
                 currency: 'IRR',
             });
@@ -107,7 +107,7 @@ export const LoanForm: React.FC<LoanFormProps> = ({
                 principalAmount,
                 interestRate,
                 formData.startDate,
-                endDate.getTime()
+                endDate
             );
             setFormData(prev => ({ ...prev, totalPayback: totalPayback.toString() }));
         }
@@ -131,7 +131,7 @@ export const LoanForm: React.FC<LoanFormProps> = ({
                 principalAmount,
                 totalPayback,
                 formData.startDate,
-                endDate.getTime()
+                endDate
             );
 
             if (isNaN(interestRate) || !isFinite(interestRate)) {
@@ -161,7 +161,7 @@ export const LoanForm: React.FC<LoanFormProps> = ({
                             principalAmount,
                             interestRate,
                             newFormData.startDate,
-                            endDate.getTime()
+                            endDate
                         );
                         setFormData(prev => ({ ...prev, totalPayback: totalPayback.toString() }));
                     }
@@ -180,7 +180,7 @@ export const LoanForm: React.FC<LoanFormProps> = ({
                             principalAmount,
                             totalPayback,
                             newFormData.startDate,
-                            endDate.getTime()
+                            endDate
                         );
                         setFormData(prev => ({ ...prev, interestRate: interestRate.toString() }));
                     }
@@ -208,7 +208,7 @@ export const LoanForm: React.FC<LoanFormProps> = ({
                         principalAmount,
                         interestRate,
                         formData.startDate,
-                        endDate.getTime()
+                        endDate
                     );
                     finalFormData.totalPayback = totalPayback.toString();
                 }
@@ -228,7 +228,7 @@ export const LoanForm: React.FC<LoanFormProps> = ({
                             principalAmount,
                             totalPayback,
                             formData.startDate,
-                            endDate.getTime()
+                            endDate
                         );
 
                         if (isNaN(interestRate) || !isFinite(interestRate)) {
@@ -251,11 +251,11 @@ export const LoanForm: React.FC<LoanFormProps> = ({
                 wageFee: parseFloat(finalFormData.wageFee || '0'),
                 wageFeePaid: false,
                 startDate: finalFormData.startDate,
-                endDate: endDate.getTime(),
+                endDate: endDate,
                 interestRate: parseFloat(finalFormData.interestRate),
                 currency: finalFormData.currency,
                 status: 'active' as const,
-                createdAt: Date.now(),
+                createdAt: new Date(),
                 periodicConfig,
                 paymentSchedule,
             };
@@ -273,7 +273,7 @@ export const LoanForm: React.FC<LoanFormProps> = ({
             principalAmount: '',
             totalPayback: '',
             wageFee: '',
-            startDate: Date.now(),
+            startDate: new Date(),
             interestRate: '',
             currency: 'IRR',
         });
@@ -377,7 +377,7 @@ export const LoanForm: React.FC<LoanFormProps> = ({
                         <DatePicker
                             label="Start Date"
                             value={formData.startDate}
-                            onChange={(date) => handleFormDataChange('startDate', date || Date.now())}
+                            onChange={(date) => handleFormDataChange('startDate', date || new Date())}
                         />
                     </div>
 
@@ -486,7 +486,7 @@ export const LoanForm: React.FC<LoanFormProps> = ({
                                 <div className="space-y-1">
                                     {paymentSchedule.map((payment, index) => (
                                         <div key={index} className="flex justify-between text-sm">
-                                            <span>{format(new Date(payment.date), 'MMM dd, yyyy')}</span>
+                                            <span>{format(payment.date, 'MMM dd, yyyy')}</span>
                                             <span className="font-medium">
                                                 {payment.amount.toLocaleString()} {formData.currency}
                                             </span>
@@ -592,7 +592,7 @@ export const LoanForm: React.FC<LoanFormProps> = ({
                                                 date: selectedDate,
                                                 amount: parseFloat(paymentAmount)
                                             };
-                                            setPaymentSchedule(prev => [...prev, newPayment].sort((a, b) => a.date - b.date));
+                                            setPaymentSchedule(prev => [...prev, newPayment].sort((a, b) => a.date.getTime() - b.date.getTime()));
                                             setSelectedDate(null);
                                             setPaymentAmount('');
                                         }
@@ -612,7 +612,7 @@ export const LoanForm: React.FC<LoanFormProps> = ({
                                 {paymentSchedule.map((payment, index) => (
                                     <div key={index} className="flex justify-between items-center">
                                         <span className="text-green-700">
-                                            {format(new Date(payment.date), 'MMM dd, yyyy')}
+                                            {format(payment.date, 'MMM dd, yyyy')}
                                         </span>
                                         <div className="flex items-center space-x-2">
                                             <span className="font-medium text-green-800">

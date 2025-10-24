@@ -251,8 +251,8 @@ export const FriendLoans: React.FC = () => {
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
                 <div>
-                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Friend Loans</h1>
-                    <p className="text-gray-600">Track money you've lent to friends</p>
+                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Friend Loans</h1>
+                    <p className="text-gray-600 dark:text-gray-400">Track money you've lent to friends</p>
                 </div>
                 <Button onClick={() => setShowAddModal(true)} className="w-full sm:w-auto">
                     <Plus className="w-4 h-4 mr-2" />
@@ -302,7 +302,7 @@ export const FriendLoans: React.FC = () => {
                                 <div>
                                     <p className="text-sm text-gray-500">Amount Lent</p>
                                     <p className="font-semibold text-gray-900">
-                                        {friendLoan.amount.toLocaleString('fa-IR')} {friendLoan.currency}
+                                        {friendLoan.amount.toLocaleString()} {friendLoan.currency}
                                     </p>
                                 </div>
 
@@ -344,7 +344,7 @@ export const FriendLoans: React.FC = () => {
                                                             payment.status === 'overdue' ? 'text-red-600' :
                                                                 'text-gray-700'
                                                             }`}>
-                                                            {payment.amount.toLocaleString('fa-IR')} {friendLoan.currency}
+                                                            {payment.amount.toLocaleString()} {friendLoan.currency}
                                                         </span>
                                                         {payment.status === 'paid' && payment.paybackCardId && (
                                                             <span className="text-xs text-gray-500">
@@ -476,7 +476,7 @@ export const FriendLoans: React.FC = () => {
             {friendLoans.length === 0 && (
                 <div className="text-center py-12 flex flex-col items-center justify-center">
                     <Users className="w-16 h-16 mx-auto text-gray-400 mb-4" />
-                    <h2 className="text-2xl font-bold text-gray-900 mb-4">No friend loans yet</h2>
+                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">No friend loans yet</h2>
                     <p className="text-gray-600 mb-8">Add your first friend loan to start tracking money you've lent.</p>
                     <Button onClick={() => setShowAddModal(true)}>
                         <Plus className="w-4 h-4 mr-2" />
@@ -541,7 +541,7 @@ export const FriendLoans: React.FC = () => {
                         onChange={(e) => setFormData(prev => ({ ...prev, cardId: e.target.value }))}
                         options={cards.map(card => ({
                             value: card.id,
-                            label: `${card.name} (${card.balance.toLocaleString('fa-IR')} ${card.currency})`
+                            label: `${card.name} (${card.balance.toLocaleString()} ${card.currency})`
                         }))}
                         required
                     />
@@ -587,7 +587,7 @@ export const FriendLoans: React.FC = () => {
                                         <div key={index} className="flex justify-between text-sm">
                                             <span>{format(new Date(payment.date), 'MMM dd, yyyy')}</span>
                                             <span className="font-medium">
-                                                {payment.amount.toLocaleString('fa-IR')} {formData.currency}
+                                                {payment.amount.toLocaleString()} {formData.currency}
                                             </span>
                                         </div>
                                     ))}
@@ -596,13 +596,13 @@ export const FriendLoans: React.FC = () => {
                                     <div className="flex justify-between text-sm">
                                         <span>Total:</span>
                                         <span className="font-semibold">
-                                            {paymentSchedule.reduce((sum, payment) => sum + payment.amount, 0).toLocaleString('fa-IR')} {formData.currency}
+                                            {paymentSchedule.reduce((sum, payment) => sum + payment.amount, 0).toLocaleString()} {formData.currency}
                                         </span>
                                     </div>
                                     <div className="flex justify-between text-sm">
                                         <span>Loan Amount:</span>
                                         <span className="font-semibold">
-                                            {parseFloat(formData.amount || '0').toLocaleString('fa-IR')} {formData.currency}
+                                            {parseFloat(formData.amount || '0').toLocaleString()} {formData.currency}
                                         </span>
                                     </div>
                                     <div className={`text-xs font-medium mt-1 ${Math.abs(paymentSchedule.reduce((sum, payment) => sum + payment.amount, 0) - parseFloat(formData.amount || '0')) < 0.01
@@ -674,15 +674,15 @@ export const FriendLoans: React.FC = () => {
                                     </h3>
                                     {selectedPaymentId ? (
                                         <p className="text-green-700">
-                                            Payment: {paybackFriendLoan.payments.find(p => p.id === selectedPaymentId)?.amount.toLocaleString('fa-IR')} {paybackFriendLoan.currency}
+                                            Payment: {paybackFriendLoan.payments.find(p => p.id === selectedPaymentId)?.amount.toLocaleString()} {paybackFriendLoan.currency}
                                         </p>
                                     ) : paybackFriendLoan.payments.length > 0 ? (
                                         <p className="text-green-700">
-                                            Full settlement: {paybackFriendLoan.payments.filter(p => p.status === 'pending').reduce((sum, p) => sum + p.amount, 0).toLocaleString('fa-IR')} {paybackFriendLoan.currency}
+                                            Full settlement: {paybackFriendLoan.payments.filter(p => p.status === 'pending').reduce((sum, p) => sum + p.amount, 0).toLocaleString()} {paybackFriendLoan.currency}
                                         </p>
                                     ) : (
                                         <p className="text-green-700">
-                                            Amount: {paybackFriendLoan.amount.toLocaleString('fa-IR')} {paybackFriendLoan.currency}
+                                            Amount: {paybackFriendLoan.amount.toLocaleString()} {paybackFriendLoan.currency}
                                         </p>
                                     )}
                                 </div>
@@ -710,7 +710,7 @@ export const FriendLoans: React.FC = () => {
                                                 </div>
                                                 <div className="text-right">
                                                     <p className="font-semibold text-gray-900">
-                                                        {payment.amount.toLocaleString('fa-IR')} {paybackFriendLoan.currency}
+                                                        {payment.amount.toLocaleString()} {paybackFriendLoan.currency}
                                                     </p>
                                                     <p className="text-sm text-gray-500">Amount</p>
                                                 </div>
@@ -730,7 +730,7 @@ export const FriendLoans: React.FC = () => {
                                 onChange={(e) => setSelectedPaybackCardId(e.target.value)}
                                 options={cards.map(card => ({
                                     value: card.id,
-                                    label: `${card.name} (${card.balance.toLocaleString('fa-IR')} ${card.currency})`
+                                    label: `${card.name} (${card.balance.toLocaleString()} ${card.currency})`
                                 }))}
                                 required
                             />
@@ -781,7 +781,7 @@ export const FriendLoans: React.FC = () => {
                                     Create Payment Schedule
                                 </h3>
                                 <p className="text-blue-700">
-                                    Click on dates to set when payments should be made. Total amount: {formData.amount ? parseFloat(formData.amount).toLocaleString('fa-IR') : '0'} {formData.currency}
+                                    Click on dates to set when payments should be made. Total amount: {formData.amount ? parseFloat(formData.amount).toLocaleString() : '0'} {formData.currency}
                                 </p>
                             </div>
                         </div>
@@ -842,7 +842,7 @@ export const FriendLoans: React.FC = () => {
                                         </span>
                                         <div className="flex items-center space-x-2">
                                             <span className="font-medium text-green-800">
-                                                {payment.amount.toLocaleString('fa-IR')} {formData.currency}
+                                                {payment.amount.toLocaleString()} {formData.currency}
                                             </span>
                                             <button
                                                 onClick={() => {
@@ -859,13 +859,13 @@ export const FriendLoans: React.FC = () => {
                                     <div className="flex justify-between font-semibold text-green-800">
                                         <span>Total Scheduled:</span>
                                         <span>
-                                            {paymentSchedule.reduce((sum, payment) => sum + payment.amount, 0).toLocaleString('fa-IR')} {formData.currency}
+                                            {paymentSchedule.reduce((sum, payment) => sum + payment.amount, 0).toLocaleString()} {formData.currency}
                                         </span>
                                     </div>
                                     <div className="flex justify-between text-sm mt-1">
                                         <span>Loan Amount:</span>
                                         <span>
-                                            {parseFloat(formData.amount || '0').toLocaleString('fa-IR')} {formData.currency}
+                                            {parseFloat(formData.amount || '0').toLocaleString()} {formData.currency}
                                         </span>
                                     </div>
                                     {paymentSchedule.length > 0 && (
@@ -875,7 +875,7 @@ export const FriendLoans: React.FC = () => {
                                             }`}>
                                             {Math.abs(paymentSchedule.reduce((sum, payment) => sum + payment.amount, 0) - parseFloat(formData.amount || '0')) < 0.01
                                                 ? '✅ Payment schedule matches loan amount'
-                                                : `❌ Payment total must equal loan amount (difference: ${Math.abs(paymentSchedule.reduce((sum, payment) => sum + payment.amount, 0) - parseFloat(formData.amount || '0')).toLocaleString('fa-IR')} ${formData.currency})`
+                                                : `❌ Payment total must equal loan amount (difference: ${Math.abs(paymentSchedule.reduce((sum, payment) => sum + payment.amount, 0) - parseFloat(formData.amount || '0')).toLocaleString()} ${formData.currency})`
                                             }
                                         </div>
                                     )}

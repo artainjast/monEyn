@@ -111,8 +111,8 @@ export const Categories: React.FC = () => {
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
                 <div>
-                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Categories</h1>
-                    <p className="text-gray-600">Organize your expenses by categories</p>
+                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Categories</h1>
+                    <p className="text-gray-600 dark:text-gray-400">Organize your expenses by categories</p>
                 </div>
                 <Button onClick={() => setShowAddModal(true)} className="w-full sm:w-auto">
                     <Plus className="w-4 h-4 mr-2" />
@@ -132,18 +132,18 @@ export const Categories: React.FC = () => {
                                 >
                                     <DynamicIcon name={category.icon} />
                                 </div>
-                                <h3 className="text-lg font-semibold text-gray-900">{category.name}</h3>
+                                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{category.name}</h3>
                             </div>
                             <div className="flex space-x-2">
                                 <button
                                     onClick={() => handleEdit(category)}
-                                    className="text-gray-400 hover:text-gray-600"
+                                    className="text-gray-400 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-200"
                                 >
                                     <Edit className="w-4 h-4" />
                                 </button>
                                 <button
                                     onClick={() => handleDelete(category.id)}
-                                    className="text-gray-400 hover:text-red-600"
+                                    className="text-gray-400 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-400"
                                 >
                                     <Trash2 className="w-4 h-4" />
                                 </button>
@@ -155,7 +155,7 @@ export const Categories: React.FC = () => {
                                 <div className="flex justify-between">
                                     <span className="text-sm text-gray-500">Budget Limit</span>
                                     <span className="text-sm font-medium text-gray-900">
-                                        {category.maxBudget.toLocaleString('fa-IR')} ریال
+                                        {category.maxBudget.toLocaleString()} ریال
                                     </span>
                                 </div>
                             )}
@@ -170,7 +170,7 @@ export const Categories: React.FC = () => {
 
             {categories.length === 0 && (
                 <div className="text-center py-12 flex flex-col items-center justify-center">
-                    <h2 className="text-2xl font-bold text-gray-900 mb-4">No categories yet</h2>
+                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">No categories yet</h2>
                     <p className="text-gray-600 mb-8">Create categories to organize your expenses.</p>
                     <Button onClick={() => setShowAddModal(true)}>
                         <Plus className="w-4 h-4 mr-2" />

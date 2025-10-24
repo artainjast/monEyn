@@ -3,6 +3,7 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
@@ -18,6 +19,10 @@ export default {
           800: '#1e40af',
           900: '#1e3a8a',
         },
+      },
+      fontFamily: {
+        'persian': ['Vazirmatn', 'Tahoma', 'Arial', 'sans-serif'],
+        'sans': ['Inter', 'Vazirmatn', 'Tahoma', 'Arial', 'sans-serif'],
       },
     },
   },

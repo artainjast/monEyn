@@ -117,8 +117,8 @@ export const PaymentCalendar: React.FC<PaymentCalendarProps> = ({
                                     {format(day, 'd')}
                                 </span>
                                 {hasPayment && (
-                                    <span className="text-xs font-bold">
-                                        {paymentAmount.toLocaleString('fa-IR')}
+                                    <span className="text-xs font-bold persian-numbers">
+                                        {paymentAmount.toLocaleString()}
                                     </span>
                                 )}
                             </div>

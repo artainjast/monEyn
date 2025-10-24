@@ -1,8 +1,8 @@
 import React from 'react';
-import { Modal } from '../../../components/Modal';
-import { Button } from '../../../components/Button';
-import { Input } from '../../../components/Input';
-import { Loan } from '../../../types';
+import { Modal } from './Modal';
+import { Button } from './Button';
+import { Input } from './Input';
+import { Loan } from '../types';
 import { Calendar } from 'lucide-react';
 
 interface PeriodicPaymentModalProps {

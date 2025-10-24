@@ -141,8 +141,8 @@ export const Loans: React.FC = () => {
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
                 <div>
-                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Loans</h1>
-                    <p className="text-gray-600">Track your loans and payment schedules</p>
+                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Loans</h1>
+                    <p className="text-gray-600 dark:text-gray-400">Track your loans and payment schedules</p>
                 </div>
                 <Button onClick={() => setShowAddModal(true)} className="w-full sm:w-auto">
                     <Plus className="w-4 h-4 mr-2" />
@@ -167,7 +167,7 @@ export const Loans: React.FC = () => {
 
             {loans.length === 0 && (
                 <div className="text-center py-12">
-                    <h2 className="text-2xl font-bold text-gray-900 mb-4">No loans yet</h2>
+                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">No loans yet</h2>
                     <p className="text-gray-600 mb-8">Add your first loan to start tracking payments.</p>
                     <Button onClick={() => setShowAddModal(true)}>
                         <Plus className="w-4 h-4 mr-2" />

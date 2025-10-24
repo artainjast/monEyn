@@ -162,7 +162,7 @@ export const Settings: React.FC = () => {
     if (!settings) {
         return (
             <div className="text-center py-12 flex flex-col items-center justify-center">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">{t('settings.settingsNotFound')}</h2>
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">{t('settings.settingsNotFound')}</h2>
                 <p className="text-gray-600">{t('settings.settingsError')}</p>
             </div>
         );
@@ -173,8 +173,8 @@ export const Settings: React.FC = () => {
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
                 <div>
-                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">{t('settings.title')}</h1>
-                    <p className="text-gray-600">{t('settings.subtitle')}</p>
+                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">{t('settings.title')}</h1>
+                    <p className="text-gray-600 dark:text-gray-400">{t('settings.subtitle')}</p>
                 </div>
                 <Button variant="secondary" onClick={handleRefreshRates} className="w-full sm:w-auto">
                     <RefreshCw className="w-4 h-4 mr-2" />
@@ -184,13 +184,13 @@ export const Settings: React.FC = () => {
 
             {/* Language Settings */}
             <Card>
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Language Settings</h3>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Language Settings</h3>
                 <LanguageSwitcher />
             </Card>
 
             {/* Default Currency */}
             <Card>
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">{t('settings.defaultCurrency')}</h3>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">{t('settings.defaultCurrency')}</h3>
                 <div className="flex items-center space-x-4">
                     <Select
                         value={settings.defaultCurrency}
@@ -200,7 +200,7 @@ export const Settings: React.FC = () => {
                             label: `${currency.name} (${currency.symbol})`,
                         }))}
                     />
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
                         {t('settings.defaultCurrencyDescription')}
                     </p>
                 </div>

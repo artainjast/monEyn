@@ -15,6 +15,7 @@ import {
 import { useI18n } from '../hooks/useI18n';
 import { CompactLanguageSwitcher } from './CompactLanguageSwitcher';
 import { OfflineIndicator } from './OfflineIndicator';
+import { ThemeToggle } from './ThemeToggle';
 
 interface LayoutProps {
     children: React.ReactNode;
@@ -37,30 +38,31 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
     ];
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className={`min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200 ${isRTL() ? 'font-persian' : 'font-sans'}`}>
             <OfflineIndicator />
 
             {/* Mobile sidebar overlay */}
             {sidebarOpen && (
                 <div
-                    className="fixed inset-0 z-40 bg-gray-600 bg-opacity-75 lg:hidden"
+                    className="fixed inset-0 z-40 bg-gray-600 bg-opacity-75 dark:bg-gray-900 dark:bg-opacity-75 lg:hidden"
                     onClick={() => setSidebarOpen(false)}
                 />
             )}
 
             {/* Sidebar */}
-            <div className={`fixed inset-y-0 z-50 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out lg:translate-x-0 ${isRTL()
+            <div className={`fixed inset-y-0 z-50 w-64 bg-white dark:bg-gray-800 shadow-lg transform transition-transform duration-300 ease-in-out lg:translate-x-0 ${isRTL()
                 ? `right-0 ${sidebarOpen ? 'translate-x-0' : 'translate-x-full'}`
                 : `left-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`
                 }`}>
-                <div className={`flex h-16 items-center justify-between px-6 border-b border-gray-200 ${isRTL() ? 'flex-row-reverse' : ''}`}>
+                <div className={`flex h-16 items-center justify-between px-6 border-b border-gray-200 dark:border-gray-700 ${isRTL() ? 'flex-row-reverse' : ''}`}>
                     <div className={`flex items-center ${isRTL() ? 'space-x-reverse space-x-3' : 'space-x-3'}`}>
-                        <h1 className="text-xl font-bold text-gray-900">MonEyn</h1>
+                        <h1 className="text-xl font-bold text-gray-900 dark:text-white">MonEyn</h1>
                         <CompactLanguageSwitcher />
+                        <ThemeToggle />
                     </div>
                     <button
                         onClick={() => setSidebarOpen(false)}
-                        className="lg:hidden text-gray-500 hover:text-gray-700"
+                        className="lg:hidden text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
                     >
                         <X className="h-6 w-6" />
                     </button>
@@ -75,11 +77,11 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
                                         to={item.href}
                                         onClick={() => setSidebarOpen(false)}
                                         className={`flex items-center px-3 py-2 rounded-lg text-sm font-medium transition-colors ${isActive
-                                            ? 'bg-primary-100 text-primary-700'
-                                            : 'text-gray-700 hover:bg-gray-100'
+                                            ? 'bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-300'
+                                            : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
                                             } ${isRTL() ? 'flex-row-reverse' : ''}`}
                                     >
-                                        <item.icon className={`${isRTL() ? 'ml-3' : 'mr-3'} h-5 w-5`} />
+                                        <item.icon className='me-3 h-5 w-5' />
                                         <span className={isRTL() ? 'text-right' : 'text-left'}>{item.name}</span>
                                     </Link>
                                 </li>
@@ -92,17 +94,18 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
             {/* Main content */}
             <div className={'lg:pl-64'}>
                 {/* Mobile header */}
-                <div className="lg:hidden bg-white shadow-sm border-b border-gray-200 px-4 py-3">
+                <div className="lg:hidden bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 px-4 py-3">
                     <div className={`flex items-center justify-between ${isRTL() ? 'flex-row-reverse' : ''}`}>
                         <button
                             onClick={() => setSidebarOpen(true)}
-                            className="text-gray-500 hover:text-gray-700"
+                            className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
                         >
                             <Menu className="h-6 w-6" />
                         </button>
                         <div className={`flex items-center ${isRTL() ? 'space-x-reverse space-x-2' : 'space-x-2'}`}>
-                            <h1 className="text-lg font-semibold text-gray-900">MonEyn</h1>
+                            <h1 className="text-lg font-semibold text-gray-900 dark:text-white">MonEyn</h1>
                             <CompactLanguageSwitcher />
+                            <ThemeToggle />
                         </div>
                         <div className="w-6" /> {/* Spacer for centering */}
                     </div>

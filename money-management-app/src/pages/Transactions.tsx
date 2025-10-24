@@ -244,8 +244,8 @@ export const Transactions: React.FC = () => {
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
                 <div>
-                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Transactions</h1>
-                    <p className="text-gray-600">Track your income and expenses</p>
+                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Transactions</h1>
+                    <p className="text-gray-600 dark:text-gray-400">Track your income and expenses</p>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                     <Button variant="secondary" onClick={() => setShowSMSModal(true)} className="w-full sm:w-auto">
@@ -324,7 +324,7 @@ export const Transactions: React.FC = () => {
                                         transaction.type === 'loan_payment' ? 'bg-purple-500' : 'bg-blue-500'
                                     }`} />
                                 <div className="min-w-0 flex-1">
-                                    <p className="font-medium text-gray-900 truncate">{transaction.description}</p>
+                                    <p className="font-medium text-gray-900 dark:text-white truncate">{transaction.description}</p>
                                     <div className="flex flex-wrap items-center gap-2 text-sm text-gray-500">
                                         <span>{getCategoryNames(transaction.categoryIds)}</span>
                                         <span className="hidden sm:inline">•</span>
@@ -353,7 +353,7 @@ export const Transactions: React.FC = () => {
                                         }`}>
                                         {transaction.type === 'income' ? '+' :
                                             transaction.type === 'expense' ? '-' :
-                                                transaction.type === 'loan_payment' ? '💳' : '↔'}{transaction.amount.toLocaleString('fa-IR')} {transaction.currency}
+                                                transaction.type === 'loan_payment' ? '💳' : '↔'}{transaction.amount.toLocaleString()} {transaction.currency}
                                     </p>
                                 </div>
                                 <div className="flex space-x-2">
@@ -378,7 +378,7 @@ export const Transactions: React.FC = () => {
 
             {filteredTransactions.length === 0 && (
                 <div className="text-center py-12 flex flex-col items-center justify-center ">
-                    <h2 className="text-2xl font-bold text-gray-900 mb-4">No transactions found</h2>
+                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">No transactions found</h2>
                     <p className="text-gray-600 mb-8">Add your first transaction or adjust your filters.</p>
                     <Button onClick={() => setShowAddModal(true)}>
                         <Plus className="w-4 h-4 mr-2" />
@@ -529,7 +529,7 @@ export const Transactions: React.FC = () => {
                         <div className="bg-green-50 border border-green-200 rounded-lg p-4">
                             <h4 className="font-medium text-green-800 mb-2">Parsed Data:</h4>
                             <div className="space-y-1 text-sm text-green-700">
-                                <p>Amount: {parsedSMS.amount.toLocaleString('fa-IR')} {parsedSMS.currency}</p>
+                                <p>Amount: {parsedSMS.amount.toLocaleString()} {parsedSMS.currency}</p>
                                 <p>Type: {parsedSMS.transactionType}</p>
                                 <p>Description: {parsedSMS.description}</p>
                                 {parsedSMS.cardNumber && <p>Card: ****{parsedSMS.cardNumber}</p>}
@@ -609,7 +609,7 @@ export const Transactions: React.FC = () => {
                                 { value: '', label: 'Select Payment' },
                                 ...getPendingPayments().map(payment => ({
                                     value: payment.id,
-                                    label: `${format(payment.dueDate, 'MMM dd, yyyy')} - ${payment.amount.toLocaleString('fa-IR')} IRR`
+                                    label: `${format(payment.dueDate, 'MMM dd, yyyy')} - ${payment.amount.toLocaleString()} IRR`
                                 })),
                             ]}
                             required

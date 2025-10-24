@@ -64,7 +64,7 @@ export const MultiCategorySelect: React.FC<MultiCategorySelectProps> = ({
                         {selectedCategories.map(category => (
                             <div
                                 key={category.id}
-                                className="inline-flex items-center gap-1 px-3 py-1 bg-primary-100 text-primary-800 rounded-full text-sm"
+                                className="inline-flex items-center gap-1 px-3 py-1 bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-300 rounded-full text-sm"
                             >
                                 <DynamicIcon
                                     name={category.icon}
@@ -87,21 +87,21 @@ export const MultiCategorySelect: React.FC<MultiCategorySelectProps> = ({
                 <button
                     type="button"
                     onClick={() => setIsOpen(!isOpen)}
-                    className="w-full px-3 py-2 text-left border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white"
+                    className="w-full px-3 py-2 text-left border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-800 dark:border-gray-700 dark:text-white"
                 >
                     <div className="flex items-center justify-between">
-                        <span className={selectedCategories.length === 0 ? 'text-gray-500' : 'text-gray-900'}>
+                        <span className={selectedCategories.length === 0 ? 'text-gray-500 dark:text-gray-400' : 'text-gray-900 dark:text-white'}>
                             {getDisplayText()}
                         </span>
-                        <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+                        <ChevronDown className={`w-4 h-4 text-gray-400 dark:text-gray-600 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
                     </div>
                 </button>
 
                 {/* Dropdown Menu */}
                 {isOpen && (
-                    <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                    <div className="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg shadow-lg max-h-60 overflow-y-auto">
                         {categories.length === 0 ? (
-                            <div className="px-3 py-2 text-gray-500 text-sm">
+                            <div className="px-3 py-2 text-gray-500 dark:text-gray-400 text-sm">
                                 No categories available
                             </div>
                         ) : (

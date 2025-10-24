@@ -152,7 +152,7 @@ export class SMSParser {
     ): string {
         const typeText = type === 'income' ? 'درآمد' : 'خرج';
         const merchantText = merchant ? ` از ${merchant}` : '';
-        return `${typeText}${merchantText} - ${amount.toLocaleString('fa-IR')} ریال`;
+        return `${typeText}${merchantText} - ${amount.toLocaleString()} ریال`;
     }
 
     // Method to add custom patterns for specific banks

@@ -1,8 +1,8 @@
 import React from 'react';
-import { Card } from '../../../components/Card';
-import { Button } from '../../../components/Button';
-import { Loan, LoanPayment, Card as CardType } from '../../../types';
-import { loanCalculator } from '../../../services';
+import { Card } from './Card';
+import { Button } from './Button';
+import { Loan, LoanPayment, Card as CardType } from '../types';
+import { loanCalculator } from '../services';
 import { Edit, Trash2, CheckCircle, AlertCircle } from 'lucide-react';
 import { format } from 'date-fns';
 
@@ -23,7 +23,6 @@ export const LoanCard: React.FC<LoanCardProps> = ({
     onMarkPaymentPaid,
     onPayWageFee,
 }) => {
-    console.log(loan);
     const summary = loanCalculator.getLoanSummary(loan);
 
     const getStatusColor = (status: Loan['status']) => {
@@ -46,10 +45,10 @@ export const LoanCard: React.FC<LoanCardProps> = ({
 
     return (
         <Card className="relative">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-3">
-                <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+            <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center">
                     <h3 className="text-lg font-semibold text-gray-900">{loan.name}</h3>
-                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(loan.status)}`}>
+                    <span className={`ml-3 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(loan.status)}`}>
                         {loan.status}
                     </span>
                 </div>
@@ -70,7 +69,7 @@ export const LoanCard: React.FC<LoanCardProps> = ({
             </div>
 
             <div className="space-y-3">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-4">
                     <div>
                         <p className="text-sm text-gray-500">Principal Amount</p>
                         <p className="font-semibold text-gray-900">
@@ -86,7 +85,7 @@ export const LoanCard: React.FC<LoanCardProps> = ({
                 </div>
 
                 {loan.wageFee > 0 && (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-2 gap-4">
                         <div>
                             <p className="text-sm text-gray-500">Wage Fee</p>
                             <p className="font-semibold text-gray-900">
@@ -116,7 +115,7 @@ export const LoanCard: React.FC<LoanCardProps> = ({
                     </div>
                 )}
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-4">
                     <div>
                         <p className="text-sm text-gray-500">Remaining Balance</p>
                         <p className="font-semibold text-gray-900">
@@ -139,14 +138,14 @@ export const LoanCard: React.FC<LoanCardProps> = ({
 
                 {summary.nextPayment && (
                     <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                        <div className="flex items-center justify-between">
                             <div>
                                 <p className="text-sm font-medium text-blue-800">Next Payment</p>
                                 <p className="text-sm text-blue-600">
                                     {format(summary.nextPayment.dueDate, 'MMM dd, yyyy')}
                                 </p>
                             </div>
-                            <div className="flex flex-col sm:items-end gap-2">
+                            <div className="text-right">
                                 <p className="font-semibold text-blue-800">
                                     {summary.nextPayment.amount.toLocaleString()} {loan.currency}
                                 </p>
@@ -154,7 +153,6 @@ export const LoanCard: React.FC<LoanCardProps> = ({
                                     size="sm"
                                     variant="success"
                                     onClick={() => onMarkPaymentPaid(loan.id, summary.nextPayment!.id)}
-                                    className="w-full sm:w-auto"
                                 >
                                     <CheckCircle className="w-3 h-3 mr-1" />
                                     Mark Paid
@@ -165,7 +163,6 @@ export const LoanCard: React.FC<LoanCardProps> = ({
                 )}
 
                 {/* Payment Schedule */}
-
                 {loan.payments.length > 0 && (
                     <div className="mt-4">
                         <h4 className="text-sm font-medium text-gray-700 mb-2">Payment Schedule</h4>

@@ -42,7 +42,7 @@ export const PaymentConfirmationModal: React.FC<PaymentConfirmationModalProps> =
                                     Loan Payment Confirmation
                                 </h3>
                                 <p className="text-green-700">
-                                    Paying {selectedPayment.payment.amount.toLocaleString('fa-IR')} {selectedPayment.loan.currency} for {selectedPayment.loan.name}
+                                    Paying {selectedPayment.payment.amount.toLocaleString()} {selectedPayment.loan.currency} for {selectedPayment.loan.name}
                                 </p>
                             </div>
                         </div>
@@ -58,7 +58,7 @@ export const PaymentConfirmationModal: React.FC<PaymentConfirmationModalProps> =
                             <div className="flex justify-between">
                                 <span className="text-gray-500">Amount:</span>
                                 <span className="font-medium">
-                                    {selectedPayment.payment.amount.toLocaleString('fa-IR')} {selectedPayment.loan.currency}
+                                    {selectedPayment.payment.amount.toLocaleString()} {selectedPayment.loan.currency}
                                 </span>
                             </div>
                             <div className="flex justify-between">
@@ -79,7 +79,7 @@ export const PaymentConfirmationModal: React.FC<PaymentConfirmationModalProps> =
                             onChange={(e) => onCardChange(e.target.value)}
                             options={cards.map(card => ({
                                 value: card.id,
-                                label: `${card.name} (${card.balance.toLocaleString('fa-IR')} ${card.currency})`
+                                label: `${card.name} (${card.balance.toLocaleString()} ${card.currency})`
                             }))}
                             required
                         />
@@ -95,7 +95,7 @@ export const PaymentConfirmationModal: React.FC<PaymentConfirmationModalProps> =
                                     <div className="flex justify-between text-sm">
                                         <span>New Balance:</span>
                                         <span className="font-semibold">
-                                            {newBalance.toLocaleString('fa-IR')} {selectedCard?.currency}
+                                            {newBalance.toLocaleString()} {selectedCard?.currency}
                                         </span>
                                     </div>
                                 );
