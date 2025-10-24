@@ -243,6 +243,7 @@ body {
 @font-face {
   font-family: 'Vazirmatn';
   font-display: swap;
+  src: url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap');
 }
 
 /* Persian text in forms */
