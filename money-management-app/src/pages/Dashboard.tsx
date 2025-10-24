@@ -6,10 +6,19 @@ import { cardsService, transactionsService, loansService, friendLoansService, se
 import { format } from 'date-fns';
 import { Plus, TrendingUp, TrendingDown, AlertCircle, Users } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useI18n } from '../hooks/useI18n';
+import { useAutoAnimate } from '@formkit/auto-animate/react';
 export const Dashboard: React.FC = () => {
+    const { t } = useI18n();
     const [stats, setStats] = useState<DashboardStats | null>(null);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
+
+    // AutoAnimate hooks for different sections
+    const [statsCardsRef] = useAutoAnimate();
+    const [recentTransactionsRef] = useAutoAnimate();
+    const [upcomingPaymentsRef] = useAutoAnimate();
+    const [friendPaybacksRef] = useAutoAnimate();
     useEffect(() => {
         loadDashboardData();
     }, []);
@@ -91,11 +100,11 @@ export const Dashboard: React.FC = () => {
     if (!stats) {
         return (
             <div className="text-center py-12 flex flex-col items-center justify-center">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">Welcome to Money Manager</h2>
-                <p className="text-gray-600 mb-8">Get started by adding your first card and category.</p>
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">{t('dashboard.welcome')}</h2>
+                <p className="text-gray-600 mb-8">{t('dashboard.getStarted')}</p>
                 <div className="space-x-4">
-                    <Button onClick={() => navigate('/cards')}>Add Card</Button>
-                    <Button onClick={() => navigate('/categories')}>Add Category</Button>
+                    <Button onClick={() => navigate('/cards')}>{t('dashboard.addCard')}</Button>
+                    <Button onClick={() => navigate('/categories')}>{t('dashboard.addCategory')}</Button>
                 </div>
             </div>
         );
@@ -106,17 +115,17 @@ export const Dashboard: React.FC = () => {
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
                 <div>
-                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Dashboard</h1>
-                    <p className="text-gray-600">Overview of your finances</p>
+                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">{t('dashboard.title')}</h1>
+                    <p className="text-gray-600">{t('dashboard.subtitle')}</p>
                 </div>
                 <Button onClick={() => navigate('/transactions')} className="w-full sm:w-auto">
                     <Plus className="w-4 h-4 mr-2" />
-                    Add Transaction
+                    {t('dashboard.addTransaction')}
                 </Button>
             </div>
 
             {/* Stats Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-6" ref={statsCardsRef}>
                 <Card>
                     <div className="flex items-center">
                         <div className="flex-shrink-0">
@@ -125,9 +134,9 @@ export const Dashboard: React.FC = () => {
                             </div>
                         </div>
                         <div className="ml-3 sm:ml-4 min-w-0 flex-1">
-                            <p className="text-xs sm:text-sm font-medium text-gray-500 truncate">Total Balance</p>
+                            <p className="text-xs sm:text-sm font-medium text-gray-500 truncate">{t('dashboard.totalBalance')}</p>
                             <p className="text-lg sm:text-xl lg:text-2xl font-semibold text-gray-900 truncate">
-                                {stats.totalBalance.toLocaleString('fa-IR')} ریال
+                                {stats.totalBalance.toLocaleString('fa-IR')} {t('currency.rial')}
                             </p>
                         </div>
                     </div>
@@ -141,9 +150,9 @@ export const Dashboard: React.FC = () => {
                             </div>
                         </div>
                         <div className="ml-3 sm:ml-4 min-w-0 flex-1">
-                            <p className="text-xs sm:text-sm font-medium text-gray-500 truncate">Monthly Income</p>
+                            <p className="text-xs sm:text-sm font-medium text-gray-500 truncate">{t('dashboard.monthlyIncome')}</p>
                             <p className="text-lg sm:text-xl lg:text-2xl font-semibold text-gray-900 truncate">
-                                {stats.monthlyIncome.toLocaleString('fa-IR')} ریال
+                                {stats.monthlyIncome.toLocaleString('fa-IR')} {t('currency.rial')}
                             </p>
                         </div>
                     </div>
@@ -157,9 +166,9 @@ export const Dashboard: React.FC = () => {
                             </div>
                         </div>
                         <div className="ml-3 sm:ml-4 min-w-0 flex-1">
-                            <p className="text-xs sm:text-sm font-medium text-gray-500 truncate">Monthly Expenses</p>
+                            <p className="text-xs sm:text-sm font-medium text-gray-500 truncate">{t('dashboard.monthlyExpenses')}</p>
                             <p className="text-lg sm:text-xl lg:text-2xl font-semibold text-gray-900 truncate">
-                                {stats.monthlyExpenses.toLocaleString('fa-IR')} ریال
+                                {stats.monthlyExpenses.toLocaleString('fa-IR')} {t('currency.rial')}
                             </p>
                         </div>
                     </div>
@@ -173,7 +182,7 @@ export const Dashboard: React.FC = () => {
                             </div>
                         </div>
                         <div className="ml-3 sm:ml-4 min-w-0 flex-1">
-                            <p className="text-xs sm:text-sm font-medium text-gray-500 truncate">Budget Utilization</p>
+                            <p className="text-xs sm:text-sm font-medium text-gray-500 truncate">{t('dashboard.budgetUtilization')}</p>
                             <p className="text-lg sm:text-xl lg:text-2xl font-semibold text-gray-900 truncate">
                                 {Math.round(stats.budgetUtilization)}%
                             </p>
@@ -189,9 +198,9 @@ export const Dashboard: React.FC = () => {
                             </div>
                         </div>
                         <div className="ml-3 sm:ml-4 min-w-0 flex-1">
-                            <p className="text-xs sm:text-sm font-medium text-gray-500 truncate">Lent to Friends</p>
+                            <p className="text-xs sm:text-sm font-medium text-gray-500 truncate">{t('dashboard.lentToFriends')}</p>
                             <p className="text-lg sm:text-xl lg:text-2xl font-semibold text-gray-900 truncate">
-                                {stats.totalLentToFriends.toLocaleString('fa-IR')} ریال
+                                {stats.totalLentToFriends.toLocaleString('fa-IR')} {t('currency.rial')}
                             </p>
                         </div>
                     </div>
@@ -202,10 +211,10 @@ export const Dashboard: React.FC = () => {
                 {/* Recent Transactions */}
                 <Card>
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-2">
-                        <h3 className="text-lg font-medium text-gray-900">Recent Transactions</h3>
-                        <Button variant="secondary" size="sm" className="w-full sm:w-auto">View All</Button>
+                        <h3 className="text-lg font-medium text-gray-900">{t('dashboard.recentTransactions')}</h3>
+                        <Button variant="secondary" size="sm" className="w-full sm:w-auto">{t('common.viewAll')}</Button>
                     </div>
-                    <div className="space-y-3">
+                    <div className="space-y-3" ref={recentTransactionsRef}>
                         {stats.recentTransactions.map((transaction) => (
                             <div key={transaction.id} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-b-0">
                                 <div className="flex items-center min-w-0 flex-1">
@@ -222,7 +231,7 @@ export const Dashboard: React.FC = () => {
                                         transaction.type === 'loan_payment' ? 'text-purple-600' : 'text-red-600'
                                         }`}>
                                         {transaction.type === 'income' || transaction.type === 'friend_loan_payback' ? '+' :
-                                            transaction.type === 'loan_payment' ? '💳' : '-'}{transaction.amount.toLocaleString('fa-IR')} ریال
+                                            transaction.type === 'loan_payment' ? '💳' : '-'}{transaction.amount.toLocaleString('fa-IR')} {t('currency.rial')}
                                     </p>
                                 </div>
                             </div>
@@ -233,31 +242,31 @@ export const Dashboard: React.FC = () => {
                 {/* Upcoming Payments */}
                 <Card>
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-2">
-                        <h3 className="text-lg font-medium text-gray-900">Upcoming Payments</h3>
-                        <Button variant="secondary" size="sm" className="w-full sm:w-auto">View All</Button>
+                        <h3 className="text-lg font-medium text-gray-900">{t('dashboard.upcomingPayments')}</h3>
+                        <Button variant="secondary" size="sm" className="w-full sm:w-auto">{t('common.viewAll')}</Button>
                     </div>
-                    <div className="space-y-3">
+                    <div className="space-y-3" ref={upcomingPaymentsRef}>
                         {stats.upcomingPayments.map((payment) => (
                             <div key={payment.id} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-b-0">
                                 <div className="min-w-0 flex-1">
-                                    <p className="text-sm font-medium text-gray-900">Loan Payment</p>
+                                    <p className="text-sm font-medium text-gray-900">{t('dashboard.loanPayment')}</p>
                                     <p className="text-xs text-gray-500">{format(payment.dueDate, 'MMM dd, yyyy')}</p>
                                 </div>
                                 <div className="text-right flex-shrink-0 ml-2">
                                     <p className="text-sm font-medium text-gray-900">
-                                        {payment.amount.toLocaleString('fa-IR')} ریال
+                                        {payment.amount.toLocaleString('fa-IR')} {t('currency.rial')}
                                     </p>
                                     <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${payment.status === 'overdue'
                                         ? 'bg-red-100 text-red-800'
                                         : 'bg-yellow-100 text-yellow-800'
                                         }`}>
-                                        {payment.status === 'overdue' ? 'Overdue' : 'Pending'}
+                                        {payment.status === 'overdue' ? t('common.overdue') : t('common.pending')}
                                     </span>
                                 </div>
                             </div>
                         ))}
                         {stats.upcomingPayments.length === 0 && (
-                            <p className="text-gray-500 text-center py-4">No upcoming payments</p>
+                            <p className="text-gray-500 text-center py-4">{t('dashboard.noUpcomingPayments')}</p>
                         )}
                     </div>
                 </Card>
@@ -267,10 +276,10 @@ export const Dashboard: React.FC = () => {
             {stats.upcomingFriendPaybacks.length > 0 && (
                 <Card>
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-2">
-                        <h3 className="text-lg font-medium text-gray-900">Upcoming Friend Paybacks</h3>
-                        <Button variant="secondary" size="sm" className="w-full sm:w-auto">View All</Button>
+                        <h3 className="text-lg font-medium text-gray-900">{t('dashboard.upcomingFriendPaybacks')}</h3>
+                        <Button variant="secondary" size="sm" className="w-full sm:w-auto">{t('common.viewAll')}</Button>
                     </div>
-                    <div className="space-y-3">
+                    <div className="space-y-3" ref={friendPaybacksRef}>
                         {stats.upcomingFriendPaybacks.slice(0, 5).map((payback) => (
                             <div key={payback.id} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-b-0">
                                 <div className="flex items-center min-w-0 flex-1">
@@ -278,19 +287,19 @@ export const Dashboard: React.FC = () => {
                                         <Users className="w-4 h-4 text-purple-600" />
                                     </div>
                                     <div className="min-w-0 flex-1">
-                                        <p className="text-sm font-medium text-gray-900">Friend Payback</p>
+                                        <p className="text-sm font-medium text-gray-900">{t('dashboard.friendPayback')}</p>
                                         <p className="text-xs text-gray-500">{format(payback.dueDate, 'MMM dd, yyyy')}</p>
                                     </div>
                                 </div>
                                 <div className="text-right flex-shrink-0 ml-2">
                                     <p className="text-sm font-medium text-gray-900">
-                                        {payback.amount.toLocaleString('fa-IR')} ریال
+                                        {payback.amount.toLocaleString('fa-IR')} {t('currency.rial')}
                                     </p>
                                     <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${payback.status === 'overdue'
                                         ? 'bg-red-100 text-red-800'
                                         : 'bg-green-100 text-green-800'
                                         }`}>
-                                        {payback.status === 'overdue' ? 'Overdue' : 'Expected'}
+                                        {payback.status === 'overdue' ? t('common.overdue') : t('common.expected')}
                                     </span>
                                 </div>
                             </div>

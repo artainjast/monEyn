@@ -7,12 +7,16 @@ import { Category } from '../types';
 import { categoriesService } from '../services';
 import { Plus, Edit, Trash2 } from 'lucide-react';
 import { DynamicIcon } from '../components/DynamicIcon';
+import { useAutoAnimate } from '@formkit/auto-animate/react';
 
 export const Categories: React.FC = () => {
     const [categories, setCategories] = useState<Category[]>([]);
     const [loading, setLoading] = useState(true);
     const [showAddModal, setShowAddModal] = useState(false);
     const [editingCategory, setEditingCategory] = useState<Category | null>(null);
+
+    // AutoAnimate hook for categories grid
+    const [categoriesGridRef] = useAutoAnimate();
 
     const [formData, setFormData] = useState({
         name: '',
@@ -117,7 +121,7 @@ export const Categories: React.FC = () => {
             </div>
 
             {/* Categories Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6" ref={categoriesGridRef}>
                 {categories.map((category) => (
                     <Card key={category.id} className="relative">
                         <div className="flex items-center justify-between mb-4">

@@ -10,10 +10,14 @@ import { loansService } from '../../services';
 import { Plus } from 'lucide-react';
 import { useLoans, useLoanPayments, useWageFeePayments, usePeriodicPayments } from './hooks';
 import { v4 as uuidv4 } from 'uuid';
+import { useAutoAnimate } from '@formkit/auto-animate/react';
 
 export const Loans: React.FC = () => {
     const [showAddModal, setShowAddModal] = useState(false);
     const [editingLoan, setEditingLoan] = useState<Loan | null>(null);
+
+    // AutoAnimate hook for loan cards
+    const [loansGridRef] = useAutoAnimate();
 
     // Custom hooks for business logic
     const { loans, cards, loading, loadLoans } = useLoans();
@@ -147,7 +151,7 @@ export const Loans: React.FC = () => {
             </div>
 
             {/* Loans Grid */}
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6" ref={loansGridRef}>
                 {loans.map((loan) => (
                     <LoanCard
                         key={loan.id}

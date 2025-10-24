@@ -1,3 +1,122 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* RTL Support */
+[dir="rtl"], .rtl {
+  direction: rtl;
+}
+
+[dir="rtl"] .space-x-4 > * + *, .rtl .space-x-4 > * + * {
+  margin-left: 0;
+  margin-right: 1rem;
+}
+
+[dir="rtl"] .space-x-3 > * + *, .rtl .space-x-3 > * + * {
+  margin-left: 0;
+  margin-right: 0.75rem;
+}
+
+[dir="rtl"] .space-x-2 > * + *, .rtl .space-x-2 > * + * {
+  margin-left: 0;
+  margin-right: 0.5rem;
+}
+
+[dir="rtl"] .ml-3, .rtl .ml-3 {
+  margin-left: 0;
+  margin-right: 0.75rem;
+}
+
+[dir="rtl"] .ml-4, .rtl .ml-4 {
+  margin-left: 0;
+  margin-right: 1rem;
+}
+
+[dir="rtl"] .ml-2, .rtl .ml-2 {
+  margin-left: 0;
+  margin-right: 0.5rem;
+}
+
+[dir="rtl"] .mr-3, .rtl .mr-3 {
+  margin-right: 0;
+  margin-left: 0.75rem;
+}
+
+[dir="rtl"] .mr-2, .rtl .mr-2 {
+  margin-right: 0;
+  margin-left: 0.5rem;
+}
+
+[dir="rtl"] .text-right, .rtl .text-right {
+  text-align: left;
+}
+
+[dir="rtl"] .text-left, .rtl .text-left {
+  text-align: right;
+}
+
+[dir="rtl"] .pl-64, .rtl .pl-64 {
+  padding-left: 0;
+  padding-right: 16rem;
+}
+
+[dir="rtl"] .lg\:pl-64, .rtl .lg\:pl-64 {
+  padding-left: 0;
+  padding-right: 16rem;
+}
+
+/* Additional RTL fixes */
+.rtl .flex-row {
+  flex-direction: row-reverse;
+}
+
+.rtl .justify-between {
+  justify-content: space-between;
+}
+
+.rtl .items-center {
+  align-items: center;
+}
+
+/* RTL-specific sidebar adjustments */
+.rtl .lg\:pl-64 {
+  padding-left: 0;
+  padding-right: 16rem;
+}
+
+.rtl .fixed.inset-y-0.left-0 {
+  left: auto;
+  right: 0;
+}
+
+/* RTL text alignment */
+.rtl .text-center {
+  text-align: center;
+}
+
+/* RTL button and input adjustments */
+.rtl input[type="text"],
+.rtl input[type="number"],
+.rtl input[type="email"],
+.rtl textarea,
+.rtl select {
+  text-align: right;
+}
+
+/* RTL icon positioning */
+.rtl .icon-left {
+  margin-right: 0;
+  margin-left: 0.5rem;
+}
+
+.rtl .icon-right {
+  margin-left: 0;
+  margin-right: 0.5rem;
+}
+
+/* Persian number formatting */
+.persian-numbers {
+  font-family: 'Tahoma', 'Arial', sans-serif;
+  direction: ltr;
+  display: inline-block;
+}

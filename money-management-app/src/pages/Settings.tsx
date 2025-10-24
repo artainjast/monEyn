@@ -5,11 +5,14 @@ import { Input } from '../components/Input';
 import { Select } from '../components/Select';
 import { Modal } from '../components/Modal';
 import { BackupRestore } from '../components/BackupRestore';
+import { LanguageSwitcher } from '../components/LanguageSwitcher';
 import { Settings as SettingsType, Currency } from '../types';
 import { settingsService } from '../services';
 import { Plus, Edit, Trash2, Save, RefreshCw } from 'lucide-react';
+import { useI18n } from '../hooks/useI18n';
 
 export const Settings: React.FC = () => {
+    const { t } = useI18n();
     const [settings, setSettings] = useState<SettingsType | null>(null);
     const [loading, setLoading] = useState(true);
     const [showAddCurrencyModal, setShowAddCurrencyModal] = useState(false);
@@ -108,7 +111,7 @@ export const Settings: React.FC = () => {
     };
 
     const handleDeleteCurrency = async (currencyCode: string) => {
-        if (window.confirm('Are you sure you want to delete this currency?')) {
+        if (window.confirm(t('settings.deleteCurrencyConfirm'))) {
             try {
                 if (!settings) return;
 
@@ -145,7 +148,7 @@ export const Settings: React.FC = () => {
     const handleRefreshRates = async () => {
         // In a real app, this would fetch rates from an API
         // For now, we'll just show a message
-        alert('Exchange rates refreshed! (This would fetch from an API in a real app)');
+        alert(t('settings.ratesRefreshed'));
     };
 
     if (loading) {
@@ -159,8 +162,8 @@ export const Settings: React.FC = () => {
     if (!settings) {
         return (
             <div className="text-center py-12 flex flex-col items-center justify-center">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">Settings not found</h2>
-                <p className="text-gray-600">There was an error loading settings.</p>
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">{t('settings.settingsNotFound')}</h2>
+                <p className="text-gray-600">{t('settings.settingsError')}</p>
             </div>
         );
     }
@@ -170,18 +173,24 @@ export const Settings: React.FC = () => {
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
                 <div>
-                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Settings</h1>
-                    <p className="text-gray-600">Manage your app preferences</p>
+                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">{t('settings.title')}</h1>
+                    <p className="text-gray-600">{t('settings.subtitle')}</p>
                 </div>
                 <Button variant="secondary" onClick={handleRefreshRates} className="w-full sm:w-auto">
                     <RefreshCw className="w-4 h-4 mr-2" />
-                    Refresh Rates
+                    {t('settings.refreshRates')}
                 </Button>
             </div>
 
+            {/* Language Settings */}
+            <Card>
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">Language Settings</h3>
+                <LanguageSwitcher />
+            </Card>
+
             {/* Default Currency */}
             <Card>
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Default Currency</h3>
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">{t('settings.defaultCurrency')}</h3>
                 <div className="flex items-center space-x-4">
                     <Select
                         value={settings.defaultCurrency}
@@ -192,7 +201,7 @@ export const Settings: React.FC = () => {
                         }))}
                     />
                     <p className="text-sm text-gray-500">
-                        This currency will be used for calculations and displays
+                        {t('settings.defaultCurrencyDescription')}
                     </p>
                 </div>
             </Card>
@@ -200,10 +209,10 @@ export const Settings: React.FC = () => {
             {/* Currencies Management */}
             <Card>
                 <div className="flex justify-between items-center mb-4">
-                    <h3 className="text-lg font-semibold text-gray-900">Currencies</h3>
+                    <h3 className="text-lg font-semibold text-gray-900">{t('settings.currencies')}</h3>
                     <Button onClick={() => setShowAddCurrencyModal(true)}>
                         <Plus className="w-4 h-4 mr-2" />
-                        Add Currency
+                        {t('settings.addCurrency')}
                     </Button>
                 </div>
 
@@ -217,11 +226,11 @@ export const Settings: React.FC = () => {
                                 </div>
                                 <div className="text-center">
                                     <p className="font-medium text-gray-900">{currency.symbol}</p>
-                                    <p className="text-sm text-gray-500">Symbol</p>
+                                    <p className="text-sm text-gray-500">{t('settings.symbol')}</p>
                                 </div>
                                 <div className="text-center">
                                     <p className="font-medium text-gray-900">{currency.exchangeRate}</p>
-                                    <p className="text-sm text-gray-500">Exchange Rate</p>
+                                    <p className="text-sm text-gray-500">{t('settings.exchangeRate')}</p>
                                 </div>
                             </div>
 
@@ -264,20 +273,20 @@ export const Settings: React.FC = () => {
 
             {/* App Information */}
             <Card>
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">App Information</h3>
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">{t('settings.appInformation')}</h3>
                 <div className="space-y-3">
                     <div className="flex justify-between">
-                        <span className="text-gray-600">Version</span>
+                        <span className="text-gray-600">{t('settings.version')}</span>
                         <span className="font-medium">1.0.0</span>
                     </div>
                     <div className="flex justify-between">
-                        <span className="text-gray-600">Last Updated</span>
+                        <span className="text-gray-600">{t('settings.lastUpdated')}</span>
                         <span className="font-medium">
                             {/* {format(settings.lastUpdated, 'MMM dd, yyyy')} */}
                         </span>
                     </div>
                     <div className="flex justify-between">
-                        <span className="text-gray-600">Database</span>
+                        <span className="text-gray-600">{t('settings.database')}</span>
                         <span className="font-medium">IndexedDB</span>
                     </div>
                 </div>
@@ -291,12 +300,12 @@ export const Settings: React.FC = () => {
                     setEditingCurrency(null);
                     setFormData({ code: '', name: '', symbol: '', exchangeRate: '' });
                 }}
-                title={editingCurrency ? 'Edit Currency' : 'Add New Currency'}
+                title={editingCurrency ? t('settings.editCurrency') : t('settings.addCurrency')}
             >
                 <form onSubmit={editingCurrency ? handleUpdateCurrency : handleAddCurrency} className="space-y-4">
                     <div className="grid grid-cols-2 gap-4">
                         <Input
-                            label="Currency Code"
+                            label={t('settings.currencyCode')}
                             value={formData.code}
                             onChange={(e) => setFormData({ ...formData, code: e.target.value.toUpperCase() })}
                             placeholder="USD, EUR, etc."
@@ -304,7 +313,7 @@ export const Settings: React.FC = () => {
                         />
 
                         <Input
-                            label="Currency Name"
+                            label={t('settings.currencyName')}
                             value={formData.name}
                             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                             placeholder="US Dollar"
@@ -314,7 +323,7 @@ export const Settings: React.FC = () => {
 
                     <div className="grid grid-cols-2 gap-4">
                         <Input
-                            label="Symbol"
+                            label={t('settings.symbol')}
                             value={formData.symbol}
                             onChange={(e) => setFormData({ ...formData, symbol: e.target.value })}
                             placeholder="$"
@@ -322,7 +331,7 @@ export const Settings: React.FC = () => {
                         />
 
                         <Input
-                            label="Exchange Rate"
+                            label={t('settings.exchangeRate')}
                             type="number"
                             step="0.01"
                             formatNumber={true}
@@ -335,7 +344,7 @@ export const Settings: React.FC = () => {
 
                     <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
                         <p className="text-sm text-blue-800">
-                            <strong>Note:</strong> Exchange rate is relative to your default currency ({settings.defaultCurrency}).
+                            <strong>Note:</strong> {t('settings.exchangeRateNote')} ({settings.defaultCurrency}).
                             For example, if USD rate is 42000, it means 1 USD = 42000 {settings.defaultCurrency}.
                         </p>
                     </div>
@@ -350,11 +359,11 @@ export const Settings: React.FC = () => {
                                 setFormData({ code: '', name: '', symbol: '', exchangeRate: '' });
                             }}
                         >
-                            Cancel
+                            {t('common.cancel')}
                         </Button>
                         <Button type="submit">
                             <Save className="w-4 h-4 mr-2" />
-                            {editingCurrency ? 'Update Currency' : 'Add Currency'}
+                            {editingCurrency ? t('settings.editCurrency') : t('settings.addCurrency')}
                         </Button>
                     </div>
                 </form>

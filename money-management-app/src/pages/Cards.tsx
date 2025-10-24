@@ -7,6 +7,7 @@ import { Modal } from '../components/Modal';
 import { Card as CardType } from '../types';
 import { cardsService, settingsService } from '../services';
 import { Plus, Edit, Trash2, ArrowRightLeft } from 'lucide-react';
+import { useAutoAnimate } from '@formkit/auto-animate/react';
 
 export const Cards: React.FC = () => {
     const [cards, setCards] = useState<CardType[]>([]);
@@ -15,6 +16,9 @@ export const Cards: React.FC = () => {
     const [showAddModal, setShowAddModal] = useState(false);
     const [showTransferModal, setShowTransferModal] = useState(false);
     const [editingCard, setEditingCard] = useState<CardType | null>(null);
+
+    // AutoAnimate hook for cards grid
+    const [cardsGridRef] = useAutoAnimate();
     const [transferData, setTransferData] = useState({
         fromCardId: '',
         toCardId: '',
@@ -159,7 +163,7 @@ export const Cards: React.FC = () => {
             </div>
 
             {/* Cards Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6" ref={cardsGridRef}>
                 {cards.map((card) => (
                     <Card key={card.id} className="relative">
                         <div className="flex items-center justify-between mb-4">

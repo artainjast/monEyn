@@ -10,6 +10,7 @@ import { transactionsService, cardsService, categoriesService, loansService } fr
 import { smsParser } from '../services/smsParser';
 import { Plus, Edit, Trash2, MessageSquare, Filter, CreditCard } from 'lucide-react';
 import { format } from 'date-fns';
+import { useAutoAnimate } from '@formkit/auto-animate/react';
 
 export const Transactions: React.FC = () => {
     const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -23,6 +24,9 @@ export const Transactions: React.FC = () => {
     const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null);
     const [smsText, setSmsText] = useState('');
     const [parsedSMS, setParsedSMS] = useState<any>(null);
+
+    // AutoAnimate hook for transaction list
+    const [animateRef] = useAutoAnimate();
 
     const [formData, setFormData] = useState({
         type: 'expense' as Transaction['type'],
@@ -304,7 +308,7 @@ export const Transactions: React.FC = () => {
 
             {/* Transactions List */}
             <Card>
-                <div className="space-y-4">
+                <div className="space-y-4" ref={animateRef}>
 
                     {filteredTransactions.map((transaction) => (
                         <div key={transaction.id} className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-4 border-b border-gray-100 last:border-b-0 gap-3">

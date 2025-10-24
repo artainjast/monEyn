@@ -12,28 +12,34 @@ import {
     Menu,
     X
 } from 'lucide-react';
+import { useI18n } from '../hooks/useI18n';
+import { CompactLanguageSwitcher } from './CompactLanguageSwitcher';
+import { OfflineIndicator } from './OfflineIndicator';
 
 interface LayoutProps {
     children: React.ReactNode;
 }
 
-const navigation = [
-    { name: 'Dashboard', href: '/', icon: Home },
-    { name: 'Cards', href: '/cards', icon: CreditCard },
-    { name: 'Categories', href: '/categories', icon: Tag },
-    { name: 'Transactions', href: '/transactions', icon: Receipt },
-    { name: 'Loans', href: '/loans', icon: FileText },
-    { name: 'Friend Loans', href: '/friend-loans', icon: Users },
-    { name: 'Analytics', href: '/analytics', icon: BarChart3 },
-    { name: 'Settings', href: '/settings', icon: Settings },
-];
-
 export const Layout: React.FC<LayoutProps> = ({ children }) => {
+    const { t } = useI18n();
     const location = useLocation();
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
+    const navigation = [
+        { name: t('navigation.dashboard'), href: '/', icon: Home },
+        { name: t('navigation.cards'), href: '/cards', icon: CreditCard },
+        { name: t('navigation.categories'), href: '/categories', icon: Tag },
+        { name: t('navigation.transactions'), href: '/transactions', icon: Receipt },
+        { name: t('navigation.loans'), href: '/loans', icon: FileText },
+        { name: t('navigation.friendLoans'), href: '/friend-loans', icon: Users },
+        { name: t('navigation.analytics'), href: '/analytics', icon: BarChart3 },
+        { name: t('navigation.settings'), href: '/settings', icon: Settings },
+    ];
+
     return (
         <div className="min-h-screen bg-gray-50">
+            <OfflineIndicator />
+
             {/* Mobile sidebar overlay */}
             {sidebarOpen && (
                 <div
@@ -46,7 +52,10 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
             <div className={`fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
                 }`}>
                 <div className="flex h-16 items-center justify-between px-6 border-b border-gray-200">
-                    <h1 className="text-xl font-bold text-gray-900">Money Manager</h1>
+                    <div className="flex items-center space-x-3">
+                        <h1 className="text-xl font-bold text-gray-900">MonEyn</h1>
+                        <CompactLanguageSwitcher />
+                    </div>
                     <button
                         onClick={() => setSidebarOpen(false)}
                         className="lg:hidden text-gray-500 hover:text-gray-700"
@@ -89,7 +98,10 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
                         >
                             <Menu className="h-6 w-6" />
                         </button>
-                        <h1 className="text-lg font-semibold text-gray-900">Money Manager</h1>
+                        <div className="flex items-center space-x-2">
+                            <h1 className="text-lg font-semibold text-gray-900">MonEyn</h1>
+                            <CompactLanguageSwitcher />
+                        </div>
                         <div className="w-6" /> {/* Spacer for centering */}
                     </div>
                 </div>
