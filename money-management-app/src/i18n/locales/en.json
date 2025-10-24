@@ -87,6 +87,16 @@
     "settingsNotFound": "Settings not found",
     "settingsError": "There was an error loading settings.",
     "deleteCurrencyConfirm": "Are you sure you want to delete this currency?",
+    "appUpdates": "App Updates",
+    "updateDescription": "Keep your app up to date with the latest features and improvements.",
+    "checkForUpdates": "Check for Updates",
+    "installUpdate": "Install Update",
+    "updateAvailable": "Update available! Click \"Install Update\" to apply.",
+    "latestVersion": "You are using the latest version.",
+    "checkingUpdates": "Checking for updates...",
+    "installingUpdate": "Installing update...",
+    "updateFailed": "Failed to check for updates.",
+    "installFailed": "Failed to install update. Please try again.",
     "ratesRefreshed": "Exchange rates refreshed! (This would fetch from an API in a real app)"
   },
   "transactions": {

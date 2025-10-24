@@ -7,8 +7,8 @@ import { Modal } from '../components/Modal';
 import { BackupRestore } from '../components/BackupRestore';
 import { LanguageSwitcher } from '../components/LanguageSwitcher';
 import { Settings as SettingsType, Currency } from '../types';
-import { settingsService } from '../services';
-import { Plus, Edit, Trash2, Save, RefreshCw } from 'lucide-react';
+import { settingsService, updateService } from '../services';
+import { Plus, Edit, Trash2, Save, RefreshCw, Download, CheckCircle, AlertCircle } from 'lucide-react';
 import { useI18n } from '../hooks/useI18n';
 
 export const Settings: React.FC = () => {
@@ -17,6 +17,18 @@ export const Settings: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [showAddCurrencyModal, setShowAddCurrencyModal] = useState(false);
     const [editingCurrency, setEditingCurrency] = useState<Currency | null>(null);
+    const [updateStatus, setUpdateStatus] = useState<{
+        checking: boolean;
+        available: boolean;
+        installing: boolean;
+        message: string;
+    }>({
+        checking: false,
+        available: false,
+        installing: false,
+        message: '',
+    });
+    const [appVersion, setAppVersion] = useState<string>('1.0.0');
 
     const [formData, setFormData] = useState({
         code: '',
@@ -27,7 +39,29 @@ export const Settings: React.FC = () => {
 
     useEffect(() => {
         loadSettings();
+        initializeUpdateService();
+        // Get the current app version
+        setAppVersion(updateService.getCurrentVersion());
     }, []);
+
+    const initializeUpdateService = async () => {
+        try {
+            await updateService.initialize();
+
+            // Listen for update notifications
+            updateService.onUpdateAvailable((updateInfo) => {
+                if (updateInfo.hasUpdate) {
+                    setUpdateStatus(prev => ({
+                        ...prev,
+                        available: true,
+                        message: t('settings.updateAvailable'),
+                    }));
+                }
+            });
+        } catch (error) {
+            console.error('Failed to initialize update service:', error);
+        }
+    };
 
     const loadSettings = async () => {
         try {
@@ -149,6 +183,58 @@ export const Settings: React.FC = () => {
         // In a real app, this would fetch rates from an API
         // For now, we'll just show a message
         alert(t('settings.ratesRefreshed'));
+    };
+
+    const handleCheckForUpdates = async () => {
+        setUpdateStatus(prev => ({ ...prev, checking: true, message: t('settings.checkingUpdates') }));
+
+        try {
+            const updateInfo = await updateService.checkForUpdates();
+
+            if (updateInfo.hasUpdate) {
+                setUpdateStatus(prev => ({
+                    ...prev,
+                    checking: false,
+                    available: true,
+                    message: t('settings.updateAvailable'),
+                }));
+            } else {
+                setUpdateStatus(prev => ({
+                    ...prev,
+                    checking: false,
+                    available: false,
+                    message: t('settings.latestVersion'),
+                }));
+            }
+        } catch (error) {
+            console.error('Error checking for updates:', error);
+            setUpdateStatus(prev => ({
+                ...prev,
+                checking: false,
+                available: false,
+                message: t('settings.updateFailed'),
+            }));
+        }
+    };
+
+    const handleInstallUpdate = async () => {
+        setUpdateStatus(prev => ({ ...prev, installing: true, message: t('settings.installingUpdate') }));
+
+        try {
+            await updateService.applyUpdate();
+
+            // Reload the page to apply the update
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        } catch (error) {
+            console.error('Error installing update:', error);
+            setUpdateStatus(prev => ({
+                ...prev,
+                installing: false,
+                message: t('settings.installFailed'),
+            }));
+        }
     };
 
     if (loading) {
@@ -277,7 +363,7 @@ export const Settings: React.FC = () => {
                 <div className="space-y-3">
                     <div className="flex justify-between">
                         <span className="text-gray-600">{t('settings.version')}</span>
-                        <span className="font-medium">1.0.0</span>
+                        <span className="font-medium">{appVersion}</span>
                     </div>
                     <div className="flex justify-between">
                         <span className="text-gray-600">{t('settings.lastUpdated')}</span>
@@ -288,6 +374,55 @@ export const Settings: React.FC = () => {
                     <div className="flex justify-between">
                         <span className="text-gray-600">{t('settings.database')}</span>
                         <span className="font-medium">IndexedDB</span>
+                    </div>
+                </div>
+            </Card>
+
+            {/* App Updates */}
+            <Card>
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">{t('settings.appUpdates')}</h3>
+                <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                        <div className="flex-1">
+                            <p className="text-sm text-gray-600 mb-2">
+                                {t('settings.updateDescription')}
+                            </p>
+                            {updateStatus.message && (
+                                <div className={`flex items-center gap-2 text-sm ${updateStatus.available ? 'text-green-600' :
+                                    updateStatus.checking || updateStatus.installing ? 'text-blue-600' :
+                                        'text-gray-600'
+                                    }`}>
+                                    {updateStatus.available && <CheckCircle className="w-4 h-4" />}
+                                    {updateStatus.checking && <RefreshCw className="w-4 h-4 animate-spin" />}
+                                    {updateStatus.installing && <Download className="w-4 h-4 animate-pulse" />}
+                                    {!updateStatus.available && !updateStatus.checking && !updateStatus.installing && <AlertCircle className="w-4 h-4" />}
+                                    <span>{updateStatus.message}</span>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
+                    <div className="flex gap-3">
+                        <Button
+                            onClick={handleCheckForUpdates}
+                            disabled={updateStatus.checking || updateStatus.installing}
+                            variant="secondary"
+                            className="flex-1"
+                        >
+                            <RefreshCw className={`w-4 h-4 mr-2 ${updateStatus.checking ? 'animate-spin' : ''}`} />
+                            {t('settings.checkForUpdates')}
+                        </Button>
+
+                        {updateStatus.available && (
+                            <Button
+                                onClick={handleInstallUpdate}
+                                disabled={updateStatus.installing}
+                                className="flex-1"
+                            >
+                                <Download className={`w-4 h-4 mr-2 ${updateStatus.installing ? 'animate-pulse' : ''}`} />
+                                {t('settings.installUpdate')}
+                            </Button>
+                        )}
                     </div>
                 </div>
             </Card>

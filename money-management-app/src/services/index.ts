@@ -430,3 +430,6 @@ export { loanCalculator } from './loanCalculator';
 
 // Export backup service
 export { backupService } from './backupService';
+
+// Export update service
+export { updateService } from './updateService';
