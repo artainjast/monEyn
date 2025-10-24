@@ -21,7 +21,7 @@ interface LayoutProps {
 }
 
 export const Layout: React.FC<LayoutProps> = ({ children }) => {
-    const { t } = useI18n();
+    const { t, isRTL } = useI18n();
     const location = useLocation();
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -49,10 +49,12 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
             )}
 
             {/* Sidebar */}
-            <div className={`fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+            <div className={`fixed inset-y-0 z-50 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out lg:translate-x-0 ${isRTL()
+                ? `right-0 ${sidebarOpen ? 'translate-x-0' : 'translate-x-full'}`
+                : `left-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`
                 }`}>
-                <div className="flex h-16 items-center justify-between px-6 border-b border-gray-200">
-                    <div className="flex items-center space-x-3">
+                <div className={`flex h-16 items-center justify-between px-6 border-b border-gray-200 ${isRTL() ? 'flex-row-reverse' : ''}`}>
+                    <div className={`flex items-center ${isRTL() ? 'space-x-reverse space-x-3' : 'space-x-3'}`}>
                         <h1 className="text-xl font-bold text-gray-900">MonEyn</h1>
                         <CompactLanguageSwitcher />
                     </div>
@@ -75,10 +77,10 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
                                         className={`flex items-center px-3 py-2 rounded-lg text-sm font-medium transition-colors ${isActive
                                             ? 'bg-primary-100 text-primary-700'
                                             : 'text-gray-700 hover:bg-gray-100'
-                                            }`}
+                                            } ${isRTL() ? 'flex-row-reverse' : ''}`}
                                     >
-                                        <item.icon className="mr-3 h-5 w-5" />
-                                        {item.name}
+                                        <item.icon className={`${isRTL() ? 'ml-3' : 'mr-3'} h-5 w-5`} />
+                                        <span className={isRTL() ? 'text-right' : 'text-left'}>{item.name}</span>
                                     </Link>
                                 </li>
                             );
@@ -88,17 +90,17 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
             </div>
 
             {/* Main content */}
-            <div className="lg:pl-64">
+            <div className={'lg:pl-64'}>
                 {/* Mobile header */}
                 <div className="lg:hidden bg-white shadow-sm border-b border-gray-200 px-4 py-3">
-                    <div className="flex items-center justify-between">
+                    <div className={`flex items-center justify-between ${isRTL() ? 'flex-row-reverse' : ''}`}>
                         <button
                             onClick={() => setSidebarOpen(true)}
                             className="text-gray-500 hover:text-gray-700"
                         >
                             <Menu className="h-6 w-6" />
                         </button>
-                        <div className="flex items-center space-x-2">
+                        <div className={`flex items-center ${isRTL() ? 'space-x-reverse space-x-2' : 'space-x-2'}`}>
                             <h1 className="text-lg font-semibold text-gray-900">MonEyn</h1>
                             <CompactLanguageSwitcher />
                         </div>

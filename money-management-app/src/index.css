@@ -7,6 +7,7 @@
   direction: rtl;
 }
 
+/* RTL spacing utilities */
 [dir="rtl"] .space-x-4 > * + *, .rtl .space-x-4 > * + * {
   margin-left: 0;
   margin-right: 1rem;
@@ -22,6 +23,12 @@
   margin-right: 0.5rem;
 }
 
+[dir="rtl"] .space-x-reverse > * + *, .rtl .space-x-reverse > * + * {
+  margin-right: 0;
+  margin-left: 1rem;
+}
+
+/* RTL margin utilities */
 [dir="rtl"] .ml-3, .rtl .ml-3 {
   margin-left: 0;
   margin-right: 0.75rem;
@@ -47,6 +54,12 @@
   margin-left: 0.5rem;
 }
 
+[dir="rtl"] .mr-4, .rtl .mr-4 {
+  margin-right: 0;
+  margin-left: 1rem;
+}
+
+/* RTL text alignment */
 [dir="rtl"] .text-right, .rtl .text-right {
   text-align: left;
 }
@@ -55,6 +68,7 @@
   text-align: right;
 }
 
+/* RTL padding utilities */
 [dir="rtl"] .pl-64, .rtl .pl-64 {
   padding-left: 0;
   padding-right: 16rem;
@@ -65,9 +79,47 @@
   padding-right: 16rem;
 }
 
-/* Additional RTL fixes */
+[dir="rtl"] .pr-64, .rtl .pr-64 {
+  padding-right: 0;
+  padding-left: 16rem;
+}
+
+[dir="rtl"] .lg\:pr-64, .rtl .lg\:pr-64 {
+  padding-right: 0;
+  padding-left: 16rem;
+}
+
+/* RTL positioning */
+[dir="rtl"] .left-0, .rtl .left-0 {
+  left: auto;
+  right: 0;
+}
+
+[dir="rtl"] .right-0, .rtl .right-0 {
+  right: 0;
+  left: auto;
+}
+
+/* RTL sidebar mobile positioning */
+@media (max-width: 1024px) {
+  .rtl .fixed.inset-y-0.right-0 {
+    right: 0;
+    left: auto;
+  }
+  
+  .rtl .fixed.inset-y-0.left-0 {
+    left: auto;
+    right: 0;
+  }
+}
+
+/* RTL flexbox utilities */
 .rtl .flex-row {
   flex-direction: row-reverse;
+}
+
+.rtl .flex-row-reverse {
+  flex-direction: row;
 }
 
 .rtl .justify-between {
@@ -84,9 +136,19 @@
   padding-right: 16rem;
 }
 
+.rtl .lg\:pr-64 {
+  padding-right: 0;
+  padding-left: 16rem;
+}
+
 .rtl .fixed.inset-y-0.left-0 {
   left: auto;
   right: 0;
+}
+
+.rtl .fixed.inset-y-0.right-0 {
+  right: auto;
+  left: auto;
 }
 
 /* RTL text alignment */
@@ -119,4 +181,75 @@
   font-family: 'Tahoma', 'Arial', sans-serif;
   direction: ltr;
   display: inline-block;
+}
+
+/* RTL responsive utilities */
+@media (max-width: 1024px) {
+  .rtl .lg\:pr-64 {
+    padding-right: 0;
+    padding-left: 0;
+  }
+  
+  .rtl .lg\:pl-64 {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+/* RTL grid adjustments */
+.rtl .grid {
+  direction: rtl;
+}
+
+/* RTL form elements */
+.rtl .form-input,
+.rtl .form-select,
+.rtl .form-textarea {
+  text-align: right;
+}
+
+/* RTL navigation */
+.rtl .nav-item {
+  text-align: right;
+}
+
+/* RTL card content */
+.rtl .card-content {
+  text-align: right;
+}
+
+/* RTL table adjustments */
+.rtl table {
+  direction: rtl;
+}
+
+.rtl th,
+.rtl td {
+  text-align: right;
+}
+
+/* RTL modal adjustments */
+.rtl .modal-content {
+  text-align: right;
+}
+
+/* RTL button groups */
+.rtl .btn-group {
+  flex-direction: row-reverse;
+}
+
+/* RTL list items */
+.rtl .list-item {
+  text-align: right;
+}
+
+/* RTL responsive text */
+@media (max-width: 640px) {
+  .rtl .text-sm {
+    text-align: right;
+  }
+  
+  .rtl .text-xs {
+    text-align: right;
+  }
 }
