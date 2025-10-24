@@ -299,7 +299,7 @@ export const friendLoansService = {
 
         // Create transaction for lending money (expense)
         await transactionsService.create({
-            type: 'friend_loan_payback',
+            type: 'lend_money',
             amount: friendLoan.amount,
             currency: friendLoan.currency,
             cardId: friendLoan.cardId,

@@ -16,7 +16,7 @@ export interface Category {
     createdAt: number; // Unix timestamp
 }
 
-export type TransactionType = 'income' | 'expense' | 'transfer' | 'loan_payment' | 'friend_loan_payback';
+export type TransactionType = 'income' | 'expense' | 'transfer' | 'loan_payment' | 'friend_loan_payback' | 'lend_money';
 
 export interface Transaction {
     id: string;
