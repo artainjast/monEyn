@@ -55,7 +55,7 @@ export const Dashboard: React.FC = () => {
                 .reduce((sum, t) => sum + t.amount, 0);
 
             const monthlyExpenses = monthlyTransactions
-                .filter(t => t.type === 'expense')
+                .filter(t => t.type === 'expense' )
                 .reduce((sum, t) => sum + t.amount, 0);
 
             // Load upcoming loan payments
