@@ -23,7 +23,7 @@ export interface Transaction {
     type: TransactionType;
     amount: number;
     currency: string;
-    categoryId?: string;
+    categoryIds?: string[]; // Support for multiple categories
     cardId?: string;
     fromCardId?: string;
     toCardId?: string;

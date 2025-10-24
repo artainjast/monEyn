@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useEffect } from 'react';
 import { Layout } from './components/Layout';
 import { Dashboard } from './pages/Dashboard';
 import { Cards } from './pages/Cards';
@@ -8,8 +9,17 @@ import { Loans } from './pages/Loans';
 import { FriendLoans } from './pages/FriendLoans';
 import { Analytics } from './pages/Analytics';
 import { Settings } from './pages/Settings';
+import { MigrationService } from './services/migrationService';
 
 function App() {
+    useEffect(() => {
+        // Check for database migrations on app startup
+        MigrationService.checkForMigrations();
+
+        // Show migration notification if needed
+        MigrationService.showMigrationNotification();
+    }, []);
+
     return (
         <Router>
             <Layout>

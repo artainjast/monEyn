@@ -2,6 +2,9 @@ import { db } from './database';
 import { Card, Category, Transaction, Loan, Settings, LoanPayment, FriendLoan, FriendLoanPayment } from '../types';
 import { v4 as uuidv4 } from 'uuid';
 
+// Export migration service
+export { MigrationService } from './migrationService';
+
 // Cards Service
 export const cardsService = {
     async getAll(): Promise<Card[]> {
@@ -85,7 +88,8 @@ export const transactionsService = {
     },
 
     async getByCategory(categoryId: string): Promise<Transaction[]> {
-        return await db.transactions.where('categoryId').equals(categoryId).reverse().sortBy('date');
+        // Use Dexie's multiEntry index for efficient array queries
+        return await db.transactions.where('categoryIds').equals(categoryId).reverse().sortBy('date');
     },
 
     async getByDateRange(startDate: number, endDate: number): Promise<Transaction[]> {

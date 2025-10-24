@@ -5,6 +5,7 @@ import { Input } from '../components/Input';
 import { Select } from '../components/Select';
 import { DatePicker } from '../components/DatePicker';
 import { Modal } from '../components/Modal';
+import { MultiCategorySelect } from '../components/MultiCategorySelect';
 import { Transaction, Card as CardType, Category, Loan } from '../types';
 import { transactionsService, cardsService, categoriesService, loansService } from '../services';
 import { smsParser } from '../services/smsParser';
@@ -32,7 +33,7 @@ export const Transactions: React.FC = () => {
         type: 'expense' as Transaction['type'],
         amount: '',
         currency: 'IRR',
-        categoryId: '',
+        categoryIds: [] as string[],
         cardId: '',
         description: '',
         date: Date.now(),
@@ -86,7 +87,7 @@ export const Transactions: React.FC = () => {
                 type: formData.type,
                 amount: parseFloat(formData.amount),
                 currency: formData.currency,
-                categoryId: formData.categoryId || undefined,
+                categoryIds: formData.categoryIds.length > 0 ? formData.categoryIds : undefined,
                 cardId: formData.cardId || undefined,
                 description: formData.description,
                 date: formData.date,
@@ -105,7 +106,7 @@ export const Transactions: React.FC = () => {
                 type: 'expense',
                 amount: '',
                 currency: 'IRR',
-                categoryId: '',
+                categoryIds: [],
                 cardId: '',
                 description: '',
                 date: Date.now(),
@@ -149,7 +150,7 @@ export const Transactions: React.FC = () => {
             type: transaction.type,
             amount: transaction.amount.toString(),
             currency: transaction.currency,
-            categoryId: transaction.categoryId || '',
+            categoryIds: transaction.categoryIds || [],
             cardId: transaction.cardId || '',
             description: transaction.description,
             date: transaction.date,
@@ -178,7 +179,7 @@ export const Transactions: React.FC = () => {
                 type: parsed.transactionType,
                 amount: parsed.amount.toString(),
                 currency: parsed.currency,
-                categoryId: '',
+                categoryIds: [],
                 cardId: cards.find(c => c.name.includes(parsed.cardNumber || ''))?.id || '',
                 description: parsed.description,
                 date: parsed.date,
@@ -192,16 +193,21 @@ export const Transactions: React.FC = () => {
 
     const filteredTransactions = transactions.filter(transaction => {
         if (filters.type && transaction.type !== filters.type) return false;
-        if (filters.categoryId && transaction.categoryId !== filters.categoryId) return false;
+        if (filters.categoryId && !transaction.categoryIds?.includes(filters.categoryId)) return false;
         if (filters.cardId && transaction.cardId !== filters.cardId) return false;
         if (filters.startDate && transaction.date < filters.startDate) return false;
         if (filters.endDate && transaction.date > filters.endDate) return false;
         return true;
     });
 
-    const getCategoryName = (categoryId?: string) => {
-        const category = categories.find(c => c.id === categoryId);
-        return category?.name || 'Uncategorized';
+    const getCategoryNames = (categoryIds?: string[]) => {
+        if (!categoryIds || categoryIds.length === 0) {
+            return 'Uncategorized';
+        }
+        const categoryNames = categoryIds
+            .map(id => categories.find(c => c.id === id)?.name)
+            .filter(Boolean);
+        return categoryNames.length > 0 ? categoryNames.join(', ') : 'Uncategorized';
     };
 
     const getCardName = (cardId?: string) => {
@@ -320,7 +326,7 @@ export const Transactions: React.FC = () => {
                                 <div className="min-w-0 flex-1">
                                     <p className="font-medium text-gray-900 truncate">{transaction.description}</p>
                                     <div className="flex flex-wrap items-center gap-2 text-sm text-gray-500">
-                                        <span>{getCategoryName(transaction.categoryId)}</span>
+                                        <span>{getCategoryNames(transaction.categoryIds)}</span>
                                         <span className="hidden sm:inline">•</span>
                                         <span>{getCardName(transaction.cardId)}</span>
                                         <span className="hidden sm:inline">•</span>
@@ -391,7 +397,7 @@ export const Transactions: React.FC = () => {
                         type: 'expense',
                         amount: '',
                         currency: 'IRR',
-                        categoryId: '',
+                        categoryIds: [],
                         cardId: '',
                         description: '',
                         date: Date.now(),
@@ -446,14 +452,12 @@ export const Transactions: React.FC = () => {
                         />
                     </div>
 
-                    <Select
-                        label="Category"
-                        value={formData.categoryId}
-                        onChange={(e) => setFormData({ ...formData, categoryId: e.target.value })}
-                        options={[
-                            { value: '', label: 'Select Category' },
-                            ...categories.map(cat => ({ value: cat.id, label: cat.name })),
-                        ]}
+                    <MultiCategorySelect
+                        label="Categories"
+                        categories={categories}
+                        selectedCategoryIds={formData.categoryIds}
+                        onChange={(categoryIds) => setFormData({ ...formData, categoryIds })}
+                        placeholder="Select categories"
                     />
 
                     <Input
@@ -480,7 +484,7 @@ export const Transactions: React.FC = () => {
                                     type: 'expense',
                                     amount: '',
                                     currency: 'IRR',
-                                    categoryId: '',
+                                    categoryIds: [],
                                     cardId: '',
                                     description: '',
                                     date: Date.now(),
